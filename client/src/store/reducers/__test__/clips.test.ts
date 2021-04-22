@@ -1,5 +1,5 @@
 import { Clip } from '../../reducers/types';
-import { ClipActions, editClipStartEnd, moveClip } from '../../actions/clips';
+import { ClipActions, editClipStartEnd, enableLabel, moveClip } from '../../actions/clips';
 import clipsReducer from '../clips';
 
 const mockClips: Clip[] = [
@@ -99,5 +99,15 @@ describe('Reducers', () => {
     expect(result[0].id).toEqual('1');
     expect(result[1].id).toEqual('2');
     expect(result[2].id).toEqual('3');
+  });
+
+  it('should enable label of the first clip', () => {
+    const result = clipsReducer(clips, enableLabel(0, true));
+    expect(result[0].label).toEqual(true);
+  });
+
+  it('should return initState when enableLabel index is out of range', () => {
+    const result = clipsReducer(clips, enableLabel(10, true));
+    expect(result[0].label).toEqual(false);
   });
 });

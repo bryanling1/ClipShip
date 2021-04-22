@@ -27,6 +27,15 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       } else {
         return state;
       }
+    case ClipActions.ENABLE_LABEL:
+      const { index, val } = action.payload;
+      if (index >= 0 && index < state.length) {
+        const temp = [...state];
+        temp[index].label = val;
+        return temp;
+      } else {
+        return state;
+      }
     default:
       return state;
   }

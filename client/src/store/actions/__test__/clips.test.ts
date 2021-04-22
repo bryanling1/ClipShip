@@ -1,4 +1,4 @@
-import { ClipActions, editClipStartEnd, moveClip } from '../clips';
+import { ClipActions, editClipStartEnd, enableLabel, moveClip } from '../clips';
 
 describe('Actions', () => {
   it('should create an action to edit start and end of a clip', () => {
@@ -24,5 +24,17 @@ describe('Actions', () => {
       payload,
     };
     expect(moveClip(payload.index1, payload.index2)).toEqual(expectedAction);
+  });
+
+  it('should create an action to enable label', () => {
+    const payload = {
+      index: 5,
+      val: true,
+    };
+    const expectedAction = {
+      type: ClipActions.ENABLE_LABEL,
+      payload,
+    };
+    expect(enableLabel(payload.index, payload.val)).toEqual(expectedAction);
   });
 });
