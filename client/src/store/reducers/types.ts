@@ -6,7 +6,8 @@ export interface Clip {
   start: number;
   end: number;
   length: number;
-  label: string | null;
+  label: boolean;
+  labelContent: string | null;
   labelPosition: Position | null;
   labelGlobalPosition: Position | null;
   thumbnailUrl: string;
