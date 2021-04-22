@@ -2,6 +2,7 @@ import { Clip, LabelPosition } from '../../reducers/types';
 import {
   ClipActions,
   addClips,
+  deleteClip,
   editClipStartEnd,
   enableLabel,
   moveClip,
@@ -93,5 +94,13 @@ describe('Actions', () => {
       clips: [clip],
     };
     expect(addClips([clip])).toEqual(expectedAction);
+  });
+
+  it('should create an action to delete a clip', () => {
+    const expectedAction = {
+      type: ClipActions.DELETE_CLIP,
+      index: 0,
+    };
+    expect(deleteClip(0)).toEqual(expectedAction);
   });
 });

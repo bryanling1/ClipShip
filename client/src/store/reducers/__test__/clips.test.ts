@@ -2,6 +2,7 @@ import { Clip, LabelPosition } from '../../reducers/types';
 import {
   ClipActions,
   addClips,
+  deleteClip,
   editClipStartEnd,
   enableLabel,
   moveClip,
@@ -159,5 +160,17 @@ describe('Reducers', () => {
   it('adds clips', () => {
     const result = clipsReducer(clips, addClips(clips));
     expect(result.length).toEqual(6);
+  });
+
+  it('deletes a clip at index 0', () => {
+    const result = clipsReducer(clips, deleteClip(0));
+    expect(result.length === 2);
+    expect(result[0].id === '2');
+  });
+
+  it('return init state when trying to delete a clip with bad index', () => {
+    const result = clipsReducer(clips, deleteClip(100));
+    expect(result.length === 3);
+    expect(result[0].id === '1');
   });
 });
