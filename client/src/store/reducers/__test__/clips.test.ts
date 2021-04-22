@@ -18,6 +18,7 @@ const mockClips: Clip[] = [
       'https://ytexpert.net/wp-content/uploads/2019/11/How-To-Make-An-Eye-Catching-Thumbnail-For-More-Clicks-862x485.jpg',
     title: 'Clip Title Editing',
     broadcaster: 'TheBroadcasterGuy',
+    labelGlobal: false,
   },
   {
     id: '2',
@@ -34,6 +35,7 @@ const mockClips: Clip[] = [
       'https://ytexpert.net/wp-content/uploads/2019/11/How-To-Make-An-Eye-Catching-Thumbnail-For-More-Clicks-862x485.jpg',
     title: 'Clip Title Editing',
     broadcaster: 'TheBroadcasterGuy',
+    labelGlobal: false,
   },
   {
     id: '3',
@@ -50,6 +52,7 @@ const mockClips: Clip[] = [
       'https://ytexpert.net/wp-content/uploads/2019/11/How-To-Make-An-Eye-Catching-Thumbnail-For-More-Clicks-862x485.jpg',
     title: 'Clip Title Editing',
     broadcaster: 'TheBroadcasterGuy',
+    labelGlobal: false,
   },
 ];
 

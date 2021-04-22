@@ -10,6 +10,7 @@ export interface Clip {
   labelContent: string | null;
   labelPosition: Position | null;
   labelGlobalPosition: Position | null;
+  labelGlobal: boolean;
   thumbnailUrl: string;
   title: string;
   broadcaster: string;
