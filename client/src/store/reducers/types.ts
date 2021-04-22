@@ -1,6 +1,7 @@
 import { Position } from '../../components/types';
 
 export interface Clip {
+  id: string;
   url: string;
   start: number;
   end: number;
