@@ -24,3 +24,8 @@ export interface Clip {
   title: string;
   broadcaster: string;
 }
+
+export interface Project {
+  id: string | null;
+  name: string | null;
+}
