@@ -43,6 +43,18 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       } else {
         return state;
       }
+    case ClipActions.SET_GLOBAL_LABEL_POSITION:
+      if (action.index >= 0 && action.index < state.length) {
+        const labelPosition = state[action.index].labelPosition;
+        const temp = [...state];
+        for (let i = 0; i < temp.length; i++) {
+          temp[i].labelGlobal = true;
+          temp[i].labelGlobalPosition = labelPosition;
+        }
+        return temp;
+      } else {
+        return state;
+      }
     default:
       return state;
   }

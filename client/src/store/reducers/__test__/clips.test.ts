@@ -4,6 +4,7 @@ import {
   editClipStartEnd,
   enableLabel,
   moveClip,
+  setGlobalLabelPosition,
   setLabelPosition,
 } from '../../actions/clips';
 import clipsReducer from '../clips';
@@ -130,5 +131,27 @@ describe('Reducers', () => {
     expect(result[0].labelPosition).toEqual(null);
     expect(result[1].labelPosition).toEqual(null);
     expect(result[2].labelPosition).toEqual(null);
+  });
+
+  it('marks all global labels to the first clip', () => {
+    let result = clipsReducer(clips, setLabelPosition(0, LabelPosition.LEFT_TOP));
+    result = clipsReducer(result, setGlobalLabelPosition(0));
+    expect(result[0].labelGlobal).toEqual(true);
+    expect(result[1].labelGlobal).toEqual(true);
+    expect(result[2].labelGlobal).toEqual(true);
+    expect(result[0].labelGlobalPosition).toEqual(LabelPosition.LEFT_TOP);
+    expect(result[1].labelGlobalPosition).toEqual(LabelPosition.LEFT_TOP);
+    expect(result[2].labelGlobalPosition).toEqual(LabelPosition.LEFT_TOP);
+  });
+
+  it('returns init state when trying to set global position with index out of range', () => {
+    let result = clipsReducer(clips, setLabelPosition(0, LabelPosition.LEFT_TOP));
+    result = clipsReducer(result, setGlobalLabelPosition(-1));
+    expect(result[0].labelGlobal).toEqual(false);
+    expect(result[1].labelGlobal).toEqual(false);
+    expect(result[2].labelGlobal).toEqual(false);
+    expect(result[0].labelGlobalPosition).toEqual(null);
+    expect(result[1].labelGlobalPosition).toEqual(null);
+    expect(result[2].labelGlobalPosition).toEqual(null);
   });
 });
