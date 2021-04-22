@@ -1,5 +1,3 @@
-import { Position } from '../../components/types';
-
 export enum LabelPosition {
   LEFT_TOP,
   CENTER_TOP,
@@ -28,4 +26,5 @@ export interface Clip {
 export interface Project {
   id: string | null;
   name: string | null;
+  error: boolean | null;
 }

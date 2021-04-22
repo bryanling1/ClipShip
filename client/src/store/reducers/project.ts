@@ -1,13 +1,18 @@
 import { Project } from './types';
-import { ProjectAction } from '../actions';
+import { ProjectAction, ProjectActions } from '../actions';
 
 export const initState: Project = {
   id: null,
   name: null,
+  error: null,
 };
 
 const projectReducer = (state: Project = initState, action: ProjectAction): Project => {
   switch (action.type) {
+    case ProjectActions.SET_PROJECT:
+      return { ...state, id: action.payload.id, name: action.payload.name };
+    case ProjectActions.SET_PROJECT_ERROR:
+      return { ...state, error: action.val };
     default:
       return state;
   }
