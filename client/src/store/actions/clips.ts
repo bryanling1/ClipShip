@@ -1,13 +1,21 @@
-export enum ClipActionTypes {
-  SwitchHero = 'SWITCH_HERO',
-  SwitchTeam = 'SWITCH_TEAM',
-  SetPercentage = 'SET_PERCENTAGE',
-  SetIsAlive = 'SET_IS_ALIVE',
-  SetUsername = 'SET_USERNAME',
-  SetHealth = 'SET_HEALTH',
-  SetWinner = 'SET_WINNER',
+export enum ClipActions {
+  EDIT_CLIP_START_END,
+  EMPTY,
 }
 
-export interface ClipAction {
-  type: ClipActionTypes;
+interface StartEnd {
+  index: number;
+  start: number;
+  end: number;
+}
+
+export type ClipAction =
+  | {
+      type: ClipActions.EDIT_CLIP_START_END;
+      payload: StartEnd;
+    }
+  | { type: ClipActions.EMPTY };
+
+export function editClipStartEnd(payload: StartEnd): ClipAction {
+  return { type: ClipActions.EDIT_CLIP_START_END, payload };
 }

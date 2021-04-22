@@ -6,9 +6,9 @@ export interface Clip {
   start: number;
   end: number;
   length: number;
-  label: string;
-  labelPosition: Position;
-  labelGlobalPosition: Position;
+  label: string | null;
+  labelPosition: Position | null;
+  labelGlobalPosition: Position | null;
   thumbnailUrl: string;
   title: string;
   broadcaster: string;
