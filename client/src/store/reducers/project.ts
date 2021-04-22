@@ -13,6 +13,8 @@ const projectReducer = (state: Project = initState, action: ProjectAction): Proj
       return { ...state, id: action.payload.id, name: action.payload.name };
     case ProjectActions.SET_PROJECT_ERROR:
       return { ...state, error: action.val };
+    case ProjectActions.EDIT_NAME:
+      return { ...state, name: action.content };
     default:
       return state;
   }

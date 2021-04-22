@@ -1,4 +1,4 @@
-import { ProjectActions, setProject, setProjectError } from '../../actions/project';
+import { ProjectActions, setName, setProject, setProjectError } from '../../actions/project';
 import reducer, { initState } from '../../reducers/project';
 
 describe('Projects Reducer', () => {
@@ -26,5 +26,14 @@ describe('Projects Reducer', () => {
     };
 
     expect(reducer(initState, setProjectError(true))).toEqual(expectedState);
+  });
+
+  it('set project name', () => {
+    const expectedState = {
+      id: null,
+      name: 'hello',
+      error: null,
+    };
+    expect(reducer(initState, setName('hello'))).toEqual(expectedState);
   });
 });

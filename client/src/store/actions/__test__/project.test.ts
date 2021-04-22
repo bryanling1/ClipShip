@@ -1,7 +1,15 @@
 import { Clip } from '../../reducers/types';
 import { ClipActions } from '../clips';
 import { Middleware } from 'redux';
-import { ProjectActions, fetchProject, setProject, setProjectError } from '../project';
+import {
+  ProjectActions,
+  editName,
+  fetchProject,
+  saveProject,
+  setName,
+  setProject,
+  setProjectError,
+} from '../project';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
@@ -95,6 +103,76 @@ describe('Project action creators', () => {
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
 
     return store.dispatch<any>(fetchProject('project_id_1')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates edit name action', () => {
+    const expected = {
+      type: ProjectActions.EDIT_NAME,
+      content: 'content',
+    };
+    expect(setName(expected.content)).toEqual(expected);
+  });
+
+  it('creates SET_PROJECT_ERROR and EDIT_NAME when updating project name has finished', () => {
+    mock
+      .onPut('http://localhost:3000/projects/project_id_1')
+      .reply(200, { name: 'name', id: 'some_id' });
+
+    const expectedActions = [
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      {
+        type: ProjectActions.EDIT_NAME,
+        content: 'name',
+      },
+    ];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(editName('project_id_1', 'name')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR updating project name request has failed', () => {
+    mock
+      .onPut('http://localhost:3000/projects/project_id_1')
+      .reply(400, { name: 'name', id: 'some_id' });
+
+    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(editName('project_id_1', 'name')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR when updating project clips has succeeded', () => {
+    mock.onPut('http://localhost:3000/projects/project_id_1').reply(200);
+
+    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: false }];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(saveProject('project_id_1', 'name')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR when updating project clips has failed', () => {
+    mock.onPut('http://localhost:3000/projects/project_id_1').reply(400);
+
+    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(saveProject('project_id_1', [])).then(() => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
     });
