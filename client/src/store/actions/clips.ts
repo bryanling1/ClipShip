@@ -1,4 +1,4 @@
-import { LabelPosition } from '../reducers/types';
+import { Clip, LabelPosition } from '../reducers/types';
 
 export enum ClipActions {
   EDIT_CLIP_START_END,
@@ -6,6 +6,7 @@ export enum ClipActions {
   ENABLE_LABEL,
   SET_LABEL_POSITION,
   SET_GLOBAL_LABEL_POSITION,
+  ADD_CLIPS,
   EMPTY,
 }
 
@@ -54,6 +55,10 @@ interface SetGlobalLabelPositionAction {
   type: ClipActions.SET_GLOBAL_LABEL_POSITION;
   index: number;
 }
+interface AddClipsAction {
+  type: ClipActions.ADD_CLIPS;
+  clips: Clip[];
+}
 
 interface EmptyAction {
   type: ClipActions.EMPTY;
@@ -64,6 +69,7 @@ export type ClipAction =
   | EnableLabelAction
   | SetLabelPositionAction
   | SetGlobalLabelPositionAction
+  | AddClipsAction
   | EmptyAction;
 
 export function editClipStartEnd(payload: StartEnd): ClipAction {
@@ -84,4 +90,8 @@ export function setLabelPosition(index: number, position: LabelPosition): ClipAc
 
 export function setGlobalLabelPosition(index: number): ClipAction {
   return { type: ClipActions.SET_GLOBAL_LABEL_POSITION, index };
+}
+
+export function addClips(clips: Clip[]): ClipAction {
+  return { type: ClipActions.ADD_CLIPS, clips };
 }

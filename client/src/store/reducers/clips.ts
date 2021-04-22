@@ -55,6 +55,9 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       } else {
         return state;
       }
+    case ClipActions.ADD_CLIPS:
+      const temp = [...state, ...action.clips];
+      return temp;
     default:
       return state;
   }

@@ -1,6 +1,7 @@
 import { Clip, LabelPosition } from '../../reducers/types';
 import {
   ClipActions,
+  addClips,
   editClipStartEnd,
   enableLabel,
   moveClip,
@@ -153,5 +154,10 @@ describe('Reducers', () => {
     expect(result[0].labelGlobalPosition).toEqual(null);
     expect(result[1].labelGlobalPosition).toEqual(null);
     expect(result[2].labelGlobalPosition).toEqual(null);
+  });
+
+  it('adds clips', () => {
+    const result = clipsReducer(clips, addClips(clips));
+    expect(result.length).toEqual(6);
   });
 });

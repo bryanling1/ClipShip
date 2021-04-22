@@ -1,12 +1,13 @@
+import { Clip, LabelPosition } from '../../reducers/types';
 import {
   ClipActions,
+  addClips,
   editClipStartEnd,
   enableLabel,
   moveClip,
   setGlobalLabelPosition,
   setLabelPosition,
 } from '../clips';
-import { LabelPosition } from '../../reducers/types';
 
 describe('Actions', () => {
   it('should create an action to edit start and end of a clip', () => {
@@ -67,5 +68,30 @@ describe('Actions', () => {
       index: payload.index,
     };
     expect(setGlobalLabelPosition(payload.index)).toEqual(expectedAction);
+  });
+
+  it('should create an action to add clips', () => {
+    const clip: Clip = {
+      id: '1',
+      url:
+        'https://clips.twitch.tv/embed?clip=AmazonianEncouragingLyrebirdAllenHuhu&tt_medium=clips_api&tt_content=embed',
+      start: 0,
+      end: 32.000333,
+      length: 32.000333,
+      label: false,
+      labelContent: null,
+      labelPosition: null,
+      labelGlobalPosition: null,
+      thumbnailUrl:
+        'https://ytexpert.net/wp-content/uploads/2019/11/How-To-Make-An-Eye-Catching-Thumbnail-For-More-Clicks-862x485.jpg',
+      title: 'Clip Title Editing',
+      broadcaster: 'TheBroadcasterGuy',
+      labelGlobal: false,
+    };
+    const expectedAction = {
+      type: ClipActions.ADD_CLIPS,
+      clips: [clip],
+    };
+    expect(addClips([clip])).toEqual(expectedAction);
   });
 });
