@@ -1,4 +1,5 @@
-import { ClipActions, editClipStartEnd, enableLabel, moveClip } from '../clips';
+import { ClipActions, editClipStartEnd, enableLabel, moveClip, setLabelPosition } from '../clips';
+import { LabelPosition } from '../../reducers/types';
 
 describe('Actions', () => {
   it('should create an action to edit start and end of a clip', () => {
@@ -36,5 +37,17 @@ describe('Actions', () => {
       payload,
     };
     expect(enableLabel(payload.index, payload.val)).toEqual(expectedAction);
+  });
+
+  it('should create an action to enable label', () => {
+    const payload = {
+      index: 5,
+      position: LabelPosition.CENTER_BOTTOM,
+    };
+    const expectedAction = {
+      type: ClipActions.SET_LABEL_POSITION,
+      payload,
+    };
+    expect(setLabelPosition(payload.index, payload.position)).toEqual(expectedAction);
   });
 });
