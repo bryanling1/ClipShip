@@ -1,5 +1,5 @@
 import { Clip } from '../../reducers/types';
-import { ClipActions, editClipStartEnd } from '../../actions/clips';
+import { ClipActions, editClipStartEnd, moveClip } from '../../actions/clips';
 import clipsReducer from '../clips';
 
 const mockClips: Clip[] = [
@@ -75,5 +75,9 @@ describe('Reducers', () => {
 
     expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].start).toEqual(mockClips[1].start);
     expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].end).toEqual(mockClips[1].end);
+  });
+  it('should return clips with index 0 and 2 sapped', () => {
+    expect(clipsReducer(mockClips, moveClip(0, 2))[0].id).toEqual('2');
+    expect(clipsReducer(mockClips, moveClip(0, 2))[2].id).toEqual('1');
   });
 });

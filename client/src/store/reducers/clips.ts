@@ -12,7 +12,21 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       } else {
         return state;
       }
-
+    case ClipActions.SWAP_CLIPS:
+      if (
+        action.payload.index1 >= 0 &&
+        action.payload.index2 < state.length &&
+        action.payload.index2 >= 0 &&
+        action.payload.index2 < state.length
+      ) {
+        const { index1, index2 } = action.payload;
+        const temp = [...state];
+        const [removed] = temp.splice(index1, 1);
+        temp.splice(index2, 0, removed);
+        return temp;
+      } else {
+        return state;
+      }
     default:
       return state;
   }
