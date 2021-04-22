@@ -52,7 +52,8 @@ const mockClips: Clip[] = [
 
 describe('Reducers', () => {
   it('should return the initial state', () => {
-    expect(clipsReducer(undefined, { type: ClipActions.EMPTY })).toEqual([]);
+    const result = clipsReducer(undefined, { type: ClipActions.EMPTY });
+    expect(result).toEqual([]);
   });
 
   it('should return clips with a modified start and end time', () => {
@@ -62,8 +63,9 @@ describe('Reducers', () => {
       end: 900,
     };
 
-    expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].start).toEqual(payload.start);
-    expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].end).toEqual(payload.end);
+    const result = clipsReducer(mockClips, editClipStartEnd(payload));
+    expect(result[1].start).toEqual(payload.start);
+    expect(result[1].end).toEqual(payload.end);
   });
 
   it('should return init state when modifiying start and end time on bad index', () => {
@@ -73,11 +75,20 @@ describe('Reducers', () => {
       end: 900,
     };
 
-    expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].start).toEqual(mockClips[1].start);
-    expect(clipsReducer(mockClips, editClipStartEnd(payload))[1].end).toEqual(mockClips[1].end);
+    const result = clipsReducer(mockClips, editClipStartEnd(payload));
+    expect(result[1].start).toEqual(mockClips[1].start);
+    expect(result[1].end).toEqual(mockClips[1].end);
   });
   it('should return clips with index 0 and 2 sapped', () => {
-    expect(clipsReducer(mockClips, moveClip(0, 2))[0].id).toEqual('2');
-    expect(clipsReducer(mockClips, moveClip(0, 2))[2].id).toEqual('1');
+    const result = clipsReducer(mockClips, moveClip(0, 2));
+    expect(result[0].id).toEqual('2');
+    expect(result[2].id).toEqual('1');
+  });
+
+  it('should return init state if index is out of range', () => {
+    const result = clipsReducer(mockClips, moveClip(-1, 5));
+    expect(result[0].id).toEqual('1');
+    expect(result[1].id).toEqual('2');
+    expect(result[2].id).toEqual('3');
   });
 });
