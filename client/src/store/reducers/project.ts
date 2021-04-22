@@ -1,5 +1,5 @@
 import { Project } from './types';
-import { ProjectAction, ProjectActions } from '../actions';
+import { ProjectAction } from '../actions';
 
 export const initState: Project = {
   id: null,
@@ -8,8 +8,6 @@ export const initState: Project = {
 
 const projectReducer = (state: Project = initState, action: ProjectAction): Project => {
   switch (action.type) {
-    case ProjectActions.EMPTY:
-      return state;
     default:
       return state;
   }
