@@ -1,4 +1,11 @@
-import { ClipActions, editClipStartEnd, enableLabel, moveClip, setLabelPosition } from '../clips';
+import {
+  ClipActions,
+  editClipStartEnd,
+  enableLabel,
+  moveClip,
+  setGlobalLabelPosition,
+  setLabelPosition,
+} from '../clips';
 import { LabelPosition } from '../../reducers/types';
 
 describe('Actions', () => {
@@ -49,5 +56,16 @@ describe('Actions', () => {
       payload,
     };
     expect(setLabelPosition(payload.index, payload.position)).toEqual(expectedAction);
+  });
+
+  it('should create an action to enable global label', () => {
+    const payload = {
+      index: 5,
+    };
+    const expectedAction = {
+      type: ClipActions.SET_GLOBAL_LABEL_POSITION,
+      index: payload.index,
+    };
+    expect(setGlobalLabelPosition(payload.index)).toEqual(expectedAction);
   });
 });

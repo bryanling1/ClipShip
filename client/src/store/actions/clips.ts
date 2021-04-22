@@ -5,6 +5,7 @@ export enum ClipActions {
   SWAP_CLIPS,
   ENABLE_LABEL,
   SET_LABEL_POSITION,
+  SET_GLOBAL_LABEL_POSITION,
   EMPTY,
 }
 
@@ -49,6 +50,11 @@ interface SetLabelPositionAction {
   payload: SetLabelPosition;
 }
 
+interface SetGlobalLabelPositionAction {
+  type: ClipActions.SET_GLOBAL_LABEL_POSITION;
+  index: number;
+}
+
 interface EmptyAction {
   type: ClipActions.EMPTY;
 }
@@ -57,6 +63,7 @@ export type ClipAction =
   | SwapClipsAction
   | EnableLabelAction
   | SetLabelPositionAction
+  | SetGlobalLabelPositionAction
   | EmptyAction;
 
 export function editClipStartEnd(payload: StartEnd): ClipAction {
@@ -73,4 +80,8 @@ export function enableLabel(index: number, val: boolean): ClipAction {
 
 export function setLabelPosition(index: number, position: LabelPosition): ClipAction {
   return { type: ClipActions.SET_LABEL_POSITION, payload: { index, position } };
+}
+
+export function setGlobalLabelPosition(index: number): ClipAction {
+  return { type: ClipActions.SET_GLOBAL_LABEL_POSITION, index };
 }
