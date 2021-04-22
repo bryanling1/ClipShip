@@ -6,6 +6,7 @@ import {
   editClipStartEnd,
   enableLabel,
   moveClip,
+  setClips,
   setGlobalLabelPosition,
   setLabelPosition,
 } from '../../actions/clips';
@@ -160,6 +161,11 @@ describe('Reducers', () => {
   it('adds clips', () => {
     const result = clipsReducer(clips, addClips(clips));
     expect(result.length).toEqual(6);
+  });
+
+  it('set clips', () => {
+    const result = clipsReducer(clips, setClips(clips.slice(0, 1)));
+    expect(result.length).toEqual(1);
   });
 
   it('deletes a clip at index 0', () => {

@@ -58,6 +58,8 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
     case ClipActions.ADD_CLIPS:
       const temp = [...state, ...action.clips];
       return temp;
+    case ClipActions.SET_CLIPS:
+      return action.clips;
     case ClipActions.DELETE_CLIP:
       if (action.index >= 0 && action.index < state.length) {
         const temp = [...state];

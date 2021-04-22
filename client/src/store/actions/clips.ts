@@ -7,6 +7,7 @@ export enum ClipActions {
   SET_LABEL_POSITION,
   SET_GLOBAL_LABEL_POSITION,
   ADD_CLIPS,
+  SET_CLIPS,
   DELETE_CLIP,
   EMPTY,
 }
@@ -60,6 +61,10 @@ interface AddClipsAction {
   type: ClipActions.ADD_CLIPS;
   clips: Clip[];
 }
+interface SetClipsAction {
+  type: ClipActions.SET_CLIPS;
+  clips: Clip[];
+}
 interface DeleteClipAction {
   type: ClipActions.DELETE_CLIP;
   index: number;
@@ -74,6 +79,7 @@ export type ClipAction =
   | SetLabelPositionAction
   | SetGlobalLabelPositionAction
   | AddClipsAction
+  | SetClipsAction
   | DeleteClipAction
   | EmptyAction;
 
@@ -99,6 +105,10 @@ export function setGlobalLabelPosition(index: number): ClipAction {
 
 export function addClips(clips: Clip[]): ClipAction {
   return { type: ClipActions.ADD_CLIPS, clips };
+}
+
+export function setClips(clips: Clip[]): ClipAction {
+  return { type: ClipActions.SET_CLIPS, clips };
 }
 
 export function deleteClip(index: number): ClipAction {

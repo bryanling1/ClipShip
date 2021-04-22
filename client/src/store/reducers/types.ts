@@ -28,3 +28,8 @@ export interface Project {
   name: string | null;
   error: boolean | null;
 }
+
+export interface StoreState {
+  clips: Clip[];
+  project: Project;
+}
