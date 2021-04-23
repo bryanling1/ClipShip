@@ -61,7 +61,7 @@ describe('Project action creators', () => {
     expect(setProjectError(true)).toEqual(expectedState);
   });
 
-  it('creates SET_PROJECT, SET_CLIPS, and SET_PROJECT_ERROR when fetching project has been done', () => {
+  it('creates SET_PROJECT, SET_CLIPS, and SET_PROJECT_ERROR when fetching project has been done and there are clips', () => {
     mock
       .onGet('http://localhost:3000/projects?id=project_id_1')
       .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: [clip] }]);
@@ -73,6 +73,28 @@ describe('Project action creators', () => {
       },
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
       { type: ClipActions.SET_CLIPS, clips: [clip] },
+    ];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(fetchProject('project_id_1')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT, SET_CLIPS, and SET_PROJECT_ERROR when fetching project has been done and there are no clips', () => {
+    mock
+      .onGet('http://localhost:3000/projects?id=project_id_1')
+      .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: null }]);
+
+    const expectedActions = [
+      {
+        type: ProjectActions.SET_PROJECT,
+        payload: { id: 'project_id_1', name: 'my_project_name' },
+      },
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ClipActions.SET_CLIPS, clips: [] },
     ];
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
