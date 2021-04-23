@@ -5,10 +5,10 @@ import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
 export enum ProjectActions {
-  EMPTY,
-  SET_PROJECT,
-  SET_PROJECT_ERROR,
-  EDIT_NAME,
+  EMPTY = 'EMPTY_PROJECT',
+  SET_PROJECT = 'SET_PROJECT',
+  SET_PROJECT_ERROR = 'SET_PROJECT_ERROR',
+  EDIT_NAME = 'EDIT_NAME',
 }
 
 interface EmptyAction {
@@ -16,8 +16,8 @@ interface EmptyAction {
 }
 
 interface SetProject {
-  id: string;
-  name: string;
+  id: string | null;
+  name: string | null;
 }
 
 interface SetProjectAction {
@@ -45,7 +45,7 @@ type fetchProjectQuery = fetchProjectQuerySingular[];
 
 export type ProjectAction = EmptyAction | SetProjectAction | SetProjectErrorAction | EditNameAction;
 
-export function setProject(id: string, name: string): ProjectAction {
+export function setProject(id: string | null, name: string | null): ProjectAction {
   return { type: ProjectActions.SET_PROJECT, payload: { id, name } };
 }
 
@@ -73,7 +73,7 @@ export const fetchProject = (
   if (result && result.data.length) {
     dispatch(setProject(result.data[0].id, result.data[0].name));
     dispatch(setProjectError(false));
-    dispatch(setClips(result.data[0].clips));
+    dispatch(setClips(result.data[0].clips || []));
   } else {
     dispatch(setProjectError(true));
   }
@@ -84,7 +84,7 @@ export const editName = (
   content: string
 ): ThunkAction<void, StoreState, unknown, ProjectAction> => async (dispatch) => {
   let error;
-  await axios.put(`http://localhost:3000/projects/${id}`, { name: content }).catch((e) => {
+  await axios.patch(`http://localhost:3000/projects/${id}`, { name: content }).catch((e) => {
     error = e;
   });
   if (error) {

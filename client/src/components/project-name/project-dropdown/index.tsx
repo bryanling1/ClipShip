@@ -2,31 +2,43 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const ITEM_HEIGHT = 48;
 
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
+interface Project {
+  name: string;
+  id: string;
+}
 
-const ProjectDropdown = (): JSX.Element => {
+interface OwnProps {
+  onSetProject: (id: string) => void;
+  onNewProject: () => void;
+  id: string | null;
+}
+
+const ProjectDropdown = (props: OwnProps): JSX.Element => {
+  const { onSetProject, onNewProject, id: projectId } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [projectsList, setProjectList] = useState<Project[]>([]);
+  const [id, setId] = useState<string>('');
+
+  useEffect(() => {
+    if (open) {
+      axios.get<Project[]>('http://localhost:3000/projects').then((result) => {
+        setProjectList(result.data.map((project) => ({ name: project.name, id: project.id })));
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (id !== projectId) {
+      setId(projectId || '');
+    }
+  }, [projectId, id]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -35,6 +47,13 @@ const ProjectDropdown = (): JSX.Element => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleCreateProject = () => {
+    handleClose();
+    setId('');
+    onNewProject();
+  };
+
   return (
     <>
       <IconButton
@@ -58,12 +77,20 @@ const ProjectDropdown = (): JSX.Element => {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} onClick={handleClose}>
-            {option}
-          </MenuItem>
+        {projectsList.map((project) => (
+          <MenuItemWrapper key={project.id} selected={id === project.id ? 1 : 0}>
+            <MenuItem
+              onClick={() => {
+                onSetProject(project.id);
+                handleClose();
+                setId(project.id);
+              }}
+            >
+              {project.name}
+            </MenuItem>
+          </MenuItemWrapper>
         ))}
-        <CreateProjectButton key={'create-new-project'} selected onClick={handleClose}>
+        <CreateProjectButton key={'create-new-project'} selected onClick={handleCreateProject}>
           + Create Project
         </CreateProjectButton>
       </Menu>
@@ -83,4 +110,11 @@ const CreateProjectButton = styled(MenuItem)`
   &&:hover {
     background-color: #8854d0;
   }
+`;
+
+interface MenuItemWrapperProps {
+  selected: number;
+}
+const MenuItemWrapper = styled.div<MenuItemWrapperProps>`
+  color: ${(props) => (props.selected ? ' #8854d0' : 'initial')};
 `;

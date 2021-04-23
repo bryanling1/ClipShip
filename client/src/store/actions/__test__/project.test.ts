@@ -119,7 +119,7 @@ describe('Project action creators', () => {
 
   it('creates SET_PROJECT_ERROR and EDIT_NAME when updating project name has finished', () => {
     mock
-      .onPut('http://localhost:3000/projects/project_id_1')
+      .onPatch('http://localhost:3000/projects/project_id_1')
       .reply(200, { name: 'name', id: 'some_id' });
 
     const expectedActions = [
@@ -140,7 +140,7 @@ describe('Project action creators', () => {
 
   it('creates SET_PROJECT_ERROR updating project name request has failed', () => {
     mock
-      .onPut('http://localhost:3000/projects/project_id_1')
+      .onPatch('http://localhost:3000/projects/project_id_1')
       .reply(400, { name: 'name', id: 'some_id' });
 
     const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];

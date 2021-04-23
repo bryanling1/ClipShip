@@ -17,11 +17,35 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 const ProjectName = (props: Props) => {
-  const { project } = props;
+  const { project, createProject, editName, fetchProject, setProject } = props;
+  const handleSetProject = (id: string) => {
+    fetchProject(id);
+  };
+  const handleCreate = (content: string) => {
+    createProject(content);
+  };
+  const handleNameChange = (content: string) => {
+    if (project.id) {
+      editName(project.id, content);
+    }
+  };
+  const handleNewProject = () => {
+    setProject(null, null);
+  };
+
   return (
     <MainWrapper>
-      <ProjectsDropdown />
-      <ProjectNameEdit content={project.name} editMode={false} />
+      <ProjectsDropdown
+        onSetProject={handleSetProject}
+        onNewProject={handleNewProject}
+        id={project.id}
+      />
+      <ProjectNameEdit
+        content={project.name}
+        editMode={false}
+        onCreate={handleCreate}
+        onNameChange={handleNameChange}
+      />
     </MainWrapper>
   );
 };
