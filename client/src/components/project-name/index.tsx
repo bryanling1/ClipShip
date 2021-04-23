@@ -1,9 +1,9 @@
 import * as actions from '../../store/actions';
 import { ConnectedProps, connect } from 'react-redux';
 import { StoreState } from '../../store/reducers/types';
+import ProjectNameEdit from './project-name';
 import ProjectsDropdown from './project-dropdown';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
 const mapStateToProps = (state: StoreState) => ({
@@ -21,7 +21,7 @@ const ProjectName = (props: Props) => {
   return (
     <MainWrapper>
       <ProjectsDropdown />
-      <Typography variant={'h5'}>{project.name ? project.name : 'Select a Project'}</Typography>
+      <ProjectNameEdit content={project.name} editMode={false} />
     </MainWrapper>
   );
 };
