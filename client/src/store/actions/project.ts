@@ -111,3 +111,19 @@ export const saveProject = (
     dispatch(setProjectError(false));
   }
 };
+
+export const createProject = (
+  name: string
+): ThunkAction<void, StoreState, unknown, ProjectAction | ClipAction> => async (dispatch) => {
+  let error;
+  const result = await axios
+    .post(`http://localhost:3000/projects`, { name, clips: [] })
+    .catch((e) => (error = e));
+  if (error) {
+    dispatch(setProjectError(true));
+  } else {
+    dispatch(setProjectError(false));
+    dispatch(setProject(result.data.id, result.data.name));
+    dispatch(setClips([]));
+  }
+};

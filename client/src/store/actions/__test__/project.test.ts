@@ -3,6 +3,7 @@ import { ClipActions } from '../clips';
 import { Middleware } from 'redux';
 import {
   ProjectActions,
+  createProject,
   editName,
   fetchProject,
   saveProject,
@@ -159,7 +160,7 @@ describe('Project action creators', () => {
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
 
-    return store.dispatch<any>(saveProject('project_id_1', 'name')).then(() => {
+    return store.dispatch<any>(saveProject('project_id_1', [])).then(() => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
     });
@@ -173,6 +174,39 @@ describe('Project action creators', () => {
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
 
     return store.dispatch<any>(saveProject('project_id_1', [])).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR, SET_CLIPS, SET_PROJECT when updating project clips has succeeded', () => {
+    mock.onPost('http://localhost:3000/projects').reply(200, {
+      name: 'project_id_1',
+      id: '123',
+    });
+
+    const expectedActions = [
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_PROJECT, payload: { name: 'project_id_1', id: '123' } },
+      { type: ClipActions.SET_CLIPS, clips: [] },
+    ];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(createProject('project_id_1')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR when updating project clips has failed', () => {
+    mock.onPost('http://localhost:3000/projects').reply(400);
+
+    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(createProject('project_id_1')).then(() => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
     });
