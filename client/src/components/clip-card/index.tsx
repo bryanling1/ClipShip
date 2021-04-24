@@ -45,13 +45,6 @@ const ClipCard = (props: OwnProps): JSX.Element => {
       opacity={opacity}
     >
       <IconsWrapper>
-        {trimmed && (
-          <SquareAvatar variant="square">
-            <Rotate90>
-              <HeightIcon />
-            </Rotate90>
-          </SquareAvatar>
-        )}
         {labeled && (
           <Badge
             overlap="circle"
@@ -71,6 +64,13 @@ const ClipCard = (props: OwnProps): JSX.Element => {
               <LabelIconWrapper />
             </SquareAvatar>
           </Badge>
+        )}
+        {trimmed && (
+          <SquareAvatar variant="square">
+            <Rotate90>
+              <HeightIcon />
+            </Rotate90>
+          </SquareAvatar>
         )}
       </IconsWrapper>
     </MainWrapper>
