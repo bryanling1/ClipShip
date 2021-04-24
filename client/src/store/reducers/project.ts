@@ -5,6 +5,7 @@ export const initState: Project = {
   id: null,
   name: null,
   error: null,
+  selectedClip: null,
 };
 
 const projectReducer = (state: Project = initState, action: ProjectAction): Project => {
@@ -15,6 +16,8 @@ const projectReducer = (state: Project = initState, action: ProjectAction): Proj
       return { ...state, error: action.val };
     case ProjectActions.EDIT_NAME:
       return { ...state, name: action.content };
+    case ProjectActions.SET_PROJECT_SELECTED_CLIP:
+      return { ...state, selectedClip: action.index };
     default:
       return state;
   }

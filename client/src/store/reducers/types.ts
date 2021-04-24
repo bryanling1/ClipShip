@@ -27,6 +27,7 @@ export interface Project {
   id: string | null;
   name: string | null;
   error: boolean | null;
+  selectedClip: number | null;
 }
 
 export interface StoreState {

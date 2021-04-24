@@ -10,6 +10,7 @@ import {
   setName,
   setProject,
   setProjectError,
+  setSelectedClip,
 } from '../project';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
@@ -60,8 +61,14 @@ describe('Project action creators', () => {
     };
     expect(setProjectError(true)).toEqual(expectedState);
   });
-
-  it('creates SET_PROJECT, SET_CLIPS, and SET_PROJECT_ERROR when fetching project has been done and there are clips', () => {
+  it('generates an action create for setting the selected clip', () => {
+    const expectedState = {
+      type: ProjectActions.SET_PROJECT_SELECTED_CLIP,
+      index: 0,
+    };
+    expect(setSelectedClip(0)).toEqual(expectedState);
+  });
+  it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, SET_PROJECT_SELECTED_CLIP when fetching project has been done and there are clips', () => {
     mock
       .onGet('http://localhost:3000/projects?id=project_id_1')
       .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: [clip] }]);
@@ -72,6 +79,7 @@ describe('Project action creators', () => {
         payload: { id: 'project_id_1', name: 'my_project_name' },
       },
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: 0 },
       { type: ClipActions.SET_CLIPS, clips: [clip] },
     ];
 
@@ -83,7 +91,7 @@ describe('Project action creators', () => {
     });
   });
 
-  it('creates SET_PROJECT, SET_CLIPS, and SET_PROJECT_ERROR when fetching project has been done and there are no clips', () => {
+  it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, and SET_PROJECT_SELECTED_CLIP when fetching project has been done and there are no clips', () => {
     mock
       .onGet('http://localhost:3000/projects?id=project_id_1')
       .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: null }]);
@@ -94,6 +102,7 @@ describe('Project action creators', () => {
         payload: { id: 'project_id_1', name: 'my_project_name' },
       },
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: null },
       { type: ClipActions.SET_CLIPS, clips: [] },
     ];
 
@@ -176,7 +185,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR when updating project clips has succeeded', () => {
-    mock.onPut('http://localhost:3000/projects/project_id_1').reply(200);
+    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200);
 
     const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: false }];
 
@@ -189,7 +198,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR when updating project clips has failed', () => {
-    mock.onPut('http://localhost:3000/projects/project_id_1').reply(400);
+    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(400);
 
     const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];
 
@@ -210,6 +219,7 @@ describe('Project action creators', () => {
     const expectedActions = [
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
       { type: ProjectActions.SET_PROJECT, payload: { name: 'project_id_1', id: '123' } },
+      { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: null },
       { type: ClipActions.SET_CLIPS, clips: [] },
     ];
 
