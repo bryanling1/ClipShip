@@ -109,13 +109,13 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
 export default ProjectDropdown;
 
 const CreateProjectButton = styled(MenuItem)`
-  && {
+  &&& {
     color: white;
     background-color: #8854d0;
     text-align: center;
     font-weight: bold;
   }
-  &&:hover {
+  &&&:hover {
     background-color: #8854d0;
   }
 `;

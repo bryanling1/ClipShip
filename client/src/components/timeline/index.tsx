@@ -86,7 +86,12 @@ const Timeline = (props: Props): JSX.Element => {
                             setSelectedClip(index);
                           }}
                         >
-                          <ClipCard imageurl={item.thumbnailUrl} />
+                          <ClipCard
+                            imageurl={item.thumbnailUrl}
+                            labeled={item.label}
+                            labeledGlobal={item.labelGlobal}
+                            trimmed={item.end - item.start !== item.length}
+                          />
                         </div>
                       )}
                     </Draggable>
@@ -106,14 +111,16 @@ const Timeline = (props: Props): JSX.Element => {
 export default connector(Timeline);
 
 const PaperWrapper = styled(Paper)`
-  background-color: #f5f5f5;
-  width: 100%;
-  display: flex;
-  padding: 5px;
-  height: 134px;
-  position: relative;
-  align-items: center;
-  justify-content: center;
+  && {
+    background-color: #f5f5f5;
+    width: 100%;
+    display: flex;
+    padding: 5px;
+    height: 134px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const FlexWrapper = styled.div`
@@ -123,7 +130,7 @@ const FlexWrapper = styled.div`
 `;
 
 const FabWrapper = styled(Fab)`
-   {
+  && {
     position: absolute;
     margin-right: -28px;
     right: 0;
@@ -132,7 +139,7 @@ const FabWrapper = styled(Fab)`
     background-color: rgb(136, 84, 208);
     color: white;
   }
-  &: hover {
+  &&: hover {
     background-color: rgb(136, 84, 208);
   }
 `;

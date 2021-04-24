@@ -6,7 +6,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Form from './form';
-import React, { useState } from 'react';
+import Player from '../player';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -25,11 +26,15 @@ const ClipSelectModal = (props: Props): JSX.Element => {
   const { open, onClose, addClips } = props;
   const [clips, setClips] = useState<Clip[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedClip, setSelectedClip] = useState<number>();
   const handleAddClips = (clips: Clip[]) => {
     if (clips.length > 0) {
       onClose();
       addClips(clips);
     }
+  };
+  const handleClickClip = (index: number) => {
+    setSelectedClip(index);
   };
   const handleSearch = async (game: string, limit: number) => {
     setLoading(true);
@@ -40,6 +45,31 @@ const ClipSelectModal = (props: Props): JSX.Element => {
       setLoading(false);
     }
   };
+  const handleChangeStartEnd = (start: number, end: number) => {
+    if (selectedClip !== undefined) {
+      const temp = [...clips];
+      temp[selectedClip].start = start;
+      temp[selectedClip].end = end;
+      setClips(temp);
+    }
+  };
+  useEffect(() => {
+    if (!open && clips.length) {
+      setClips([]);
+      setSelectedClip(undefined);
+    }
+  }, [open, JSON.stringify(clips)]);
+  const clip =
+    selectedClip !== undefined && selectedClip >= 0 && selectedClip < clips.length
+      ? clips[selectedClip]
+      : undefined;
+  const clipUrl = clip && clip.url;
+  const clipStart = clip && clip.start;
+  const clipEnd = clip && clip.end;
+  const clipLength = clip && clip.length;
+  const clipTitle = clip && clip.title;
+  const clipBroadcaster = clip && clip.broadcaster;
+
   return (
     <DialogWrapper open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Find and Add Clips</DialogTitle>
@@ -47,9 +77,25 @@ const ClipSelectModal = (props: Props): JSX.Element => {
         <FlexWrapper>
           <FirstHalf>
             <Form onSearch={handleSearch} loading={loading} />
-            <Clips clips={clips} onAddClips={handleAddClips} loading={loading} />
+            <Clips
+              clips={clips}
+              onAddClips={handleAddClips}
+              loading={loading}
+              onClick={handleClickClip}
+              selectedIndex={selectedClip !== undefined ? selectedClip : -1}
+            />
           </FirstHalf>
-          <SecondHalf></SecondHalf>
+          <SecondHalf>
+            <Player
+              url={clipUrl}
+              onStartEndChange={handleChangeStartEnd}
+              start={clipStart}
+              end={clipEnd}
+              length={clipLength}
+              title={clipTitle}
+              broadcaster={clipBroadcaster}
+            />
+          </SecondHalf>
         </FlexWrapper>
       </DialogContent>
     </DialogWrapper>
@@ -63,6 +109,10 @@ const DialogWrapper = styled(Dialog)`
     &-container {
       align-items: start;
     }
+  }
+
+  && .MuiPaper-root .MuiDialogContent-root {
+    overflow-x: hidden;
   }
 `;
 

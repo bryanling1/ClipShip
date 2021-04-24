@@ -1,3 +1,8 @@
+import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
+import GlobeIcon from '@material-ui/icons/Public';
+import HeightIcon from '@material-ui/icons/Height';
+import LabelIcon from '@material-ui/icons/Label';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -10,9 +15,24 @@ interface OwnProps {
   border?: number;
   cursor?: string;
   opacity?: number;
+  trimmed?: boolean;
+  labeled?: boolean;
+  labeledGlobal?: boolean;
 }
 const ClipCard = (props: OwnProps): JSX.Element => {
-  const { imageurl, height, width, margin, onClick, border, cursor, opacity } = props;
+  const {
+    imageurl,
+    height,
+    width,
+    margin,
+    onClick,
+    border,
+    cursor,
+    opacity,
+    trimmed,
+    labeled,
+    labeledGlobal,
+  } = props;
   return (
     <MainWrapper
       imageurl={imageurl}
@@ -23,7 +43,37 @@ const ClipCard = (props: OwnProps): JSX.Element => {
       border={border}
       cursor={cursor}
       opacity={opacity}
-    />
+    >
+      <IconsWrapper>
+        {trimmed && (
+          <SquareAvatar variant="square">
+            <Rotate90>
+              <HeightIcon />
+            </Rotate90>
+          </SquareAvatar>
+        )}
+        {labeled && (
+          <Badge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            badgeContent={
+              labeledGlobal && (
+                <SmallAvatar>
+                  <GlobeIcon />
+                </SmallAvatar>
+              )
+            }
+          >
+            <SquareAvatar variant="square">
+              <LabelIconWrapper />
+            </SquareAvatar>
+          </Badge>
+        )}
+      </IconsWrapper>
+    </MainWrapper>
   );
 };
 
@@ -52,4 +102,37 @@ const MainWrapper = styled.div<MainWrapperProps>`
   border: ${(props) => (props.border ? `${props.border}px` : 0)} solid rgb(136, 84, 208);
   cursor: ${(props) => (props.cursor ? props.cursor : 'initial')};
   opacity: ${(props) => (props.opacity ? props.opacity : 'initial')};
+`;
+
+const Rotate90 = styled.div`
+   {
+    transform: rotate(90deg);
+  }
+`;
+const SmallAvatar = styled(Avatar)`
+  && {
+    width: 20px;
+    height: 20px;
+    transform: scale(0.8);
+    background-color: rgb(136, 84, 208);
+  }
+`;
+
+const SquareAvatar = styled(Avatar)`
+  && {
+    width: 25px;
+    height: 25px;
+    background-color: rgb(136, 84, 208);
+  }
+`;
+
+const IconsWrapper = styled.div`
+  heigth: 100%;
+  width: 30px;
+`;
+
+const LabelIconWrapper = styled(LabelIcon)`
+  && {
+    transform: scale(0.8);
+  }
 `;

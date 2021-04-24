@@ -6,7 +6,9 @@ import {
   editClipStartEnd,
   enableLabel,
   moveClip,
+  setAllGlobalLabelsOff,
   setClips,
+  setGlobalLabel,
   setGlobalLabelPosition,
   setLabelPosition,
 } from '../clips';
@@ -128,5 +130,21 @@ describe('Actions', () => {
       index: 0,
     };
     expect(deleteClip(0)).toEqual(expectedAction);
+  });
+
+  it('should create an action to set to use global label', () => {
+    const expectedAction = {
+      type: ClipActions.SET_GLOBAL_LABEL,
+      index: 0,
+      val: true,
+    };
+    expect(setGlobalLabel(0, true)).toEqual(expectedAction);
+  });
+
+  it('should create an action to turn all global labels off', () => {
+    const expectedAction = {
+      type: ClipActions.SET_ALL_GLOBAL_LABELS_OFF,
+    };
+    expect(setAllGlobalLabelsOff()).toEqual(expectedAction);
   });
 });

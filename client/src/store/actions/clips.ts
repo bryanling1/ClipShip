@@ -10,6 +10,8 @@ export enum ClipActions {
   SET_CLIPS = 'SET_CLIPS',
   DELETE_CLIP = 'DELETE_CLIP',
   EMPTY = 'EMPTY_CLIPS',
+  SET_GLOBAL_LABEL = 'SET_GLOBAL_LABEL',
+  SET_ALL_GLOBAL_LABELS_OFF = 'SET_ALL_GLOBAL_LABELS_OFF',
 }
 
 interface StartEnd {
@@ -52,7 +54,11 @@ interface SetLabelPositionAction {
   type: ClipActions.SET_LABEL_POSITION;
   payload: SetLabelPosition;
 }
-
+interface SetGlobalLabelAction {
+  type: ClipActions.SET_GLOBAL_LABEL;
+  index: number;
+  val: boolean;
+}
 interface SetGlobalLabelPositionAction {
   type: ClipActions.SET_GLOBAL_LABEL_POSITION;
   index: number;
@@ -69,9 +75,14 @@ interface DeleteClipAction {
   type: ClipActions.DELETE_CLIP;
   index: number;
 }
+
+interface SetAllGlobalLabelsOffAction {
+  type: ClipActions.SET_ALL_GLOBAL_LABELS_OFF;
+}
 interface EmptyAction {
   type: ClipActions.EMPTY;
 }
+
 export type ClipAction =
   | EditClipStartEndAction
   | SwapClipsAction
@@ -81,7 +92,9 @@ export type ClipAction =
   | AddClipsAction
   | SetClipsAction
   | DeleteClipAction
-  | EmptyAction;
+  | EmptyAction
+  | SetGlobalLabelAction
+  | SetAllGlobalLabelsOffAction;
 
 export function editClipStartEnd(payload: StartEnd): ClipAction {
   return { type: ClipActions.EDIT_CLIP_START_END, payload };
@@ -103,6 +116,10 @@ export function setGlobalLabelPosition(index: number): ClipAction {
   return { type: ClipActions.SET_GLOBAL_LABEL_POSITION, index };
 }
 
+export function setGlobalLabel(index: number, val: boolean): ClipAction {
+  return { type: ClipActions.SET_GLOBAL_LABEL, val, index };
+}
+
 export function addClips(clips: Clip[]): ClipAction {
   return { type: ClipActions.ADD_CLIPS, clips };
 }
@@ -113,4 +130,8 @@ export function setClips(clips: Clip[]): ClipAction {
 
 export function deleteClip(index: number): ClipAction {
   return { type: ClipActions.DELETE_CLIP, index };
+}
+
+export function setAllGlobalLabelsOff(): ClipAction {
+  return { type: ClipActions.SET_ALL_GLOBAL_LABELS_OFF };
 }

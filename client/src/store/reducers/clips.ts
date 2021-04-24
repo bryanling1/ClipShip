@@ -49,15 +49,23 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
         const temp = [...state];
         for (let i = 0; i < temp.length; i++) {
           temp[i].labelGlobal = true;
+          temp[i].label = true;
           temp[i].labelGlobalPosition = labelPosition;
         }
         return temp;
       } else {
         return state;
       }
+    case ClipActions.SET_GLOBAL_LABEL:
+      if (action.index >= 0 && action.index < state.length) {
+        const temp = [...state];
+        temp[action.index].labelGlobal = action.val;
+        return temp;
+      } else {
+        return state;
+      }
     case ClipActions.ADD_CLIPS:
-      const temp = [...state, ...action.clips];
-      return temp;
+      return [...state, ...action.clips];
     case ClipActions.SET_CLIPS:
       return action.clips;
     case ClipActions.DELETE_CLIP:
@@ -68,6 +76,13 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       } else {
         return state;
       }
+    case ClipActions.SET_ALL_GLOBAL_LABELS_OFF:
+      const temp = [...state];
+      for (let i = 0; i < temp.length; i++) {
+        temp[i].labelGlobal = false;
+        temp[i].labelGlobalPosition = null;
+      }
+      return temp;
     default:
       return state;
   }

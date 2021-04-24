@@ -67,7 +67,7 @@ const FormWrapper = styled.form`
 `;
 
 const TextFieldLimitWrapper = styled(TextField)`
-   {
+  && {
     width: 70px;
     margin-right: 5px;
     margin-left: 5px;

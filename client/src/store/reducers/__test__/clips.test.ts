@@ -6,7 +6,9 @@ import {
   editClipStartEnd,
   enableLabel,
   moveClip,
+  setAllGlobalLabelsOff,
   setClips,
+  setGlobalLabel,
   setGlobalLabelPosition,
   setLabelPosition,
 } from '../../actions/clips';
@@ -170,13 +172,35 @@ describe('Reducers', () => {
 
   it('deletes a clip at index 0', () => {
     const result = clipsReducer(clips, deleteClip(0));
-    expect(result.length === 2);
-    expect(result[0].id === '2');
+    expect(result.length).toEqual(2);
+    expect(result[0].id).toEqual('2');
   });
 
   it('return init state when trying to delete a clip with bad index', () => {
     const result = clipsReducer(clips, deleteClip(100));
-    expect(result.length === 3);
-    expect(result[0].id === '1');
+    expect(result.length).toEqual(3);
+    expect(result[0].id).toEqual('1');
+  });
+
+  it('enables the global label option on the first clip', () => {
+    const result = clipsReducer(clips, setGlobalLabel(0, true));
+    expect(result[0].labelGlobal).toEqual(true);
+  });
+
+  it('returns init state when setting global label with bad index', () => {
+    const result = clipsReducer(clips, setGlobalLabel(-1, true));
+    expect(result[0].labelGlobal).toEqual(false);
+  });
+
+  it('turns all global labels off', () => {
+    let result = clipsReducer(clips, setLabelPosition(0, LabelPosition.LEFT_TOP));
+    result = clipsReducer(result, setGlobalLabelPosition(0));
+    result = clipsReducer(result, setAllGlobalLabelsOff());
+    expect(result[0].labelGlobal).toEqual(false);
+    expect(result[1].labelGlobal).toEqual(false);
+    expect(result[2].labelGlobal).toEqual(false);
+    expect(result[0].labelGlobalPosition).toEqual(null);
+    expect(result[1].labelGlobalPosition).toEqual(null);
+    expect(result[2].labelGlobalPosition).toEqual(null);
   });
 });

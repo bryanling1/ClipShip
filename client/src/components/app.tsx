@@ -1,3 +1,4 @@
+import ClipEditor from './clip-editor';
 import ClipSelectModal from './clip-select-modal';
 import Container from '@material-ui/core/Container';
 import ProjectName from './project-name';
@@ -19,6 +20,7 @@ const App = (): JSX.Element => {
         }}
       />
       <ProjectName />
+      <ClipEditor />
       <Timeline onAdd={openClipFinder} />
     </ContainerWrapper>
   );
@@ -27,5 +29,7 @@ const App = (): JSX.Element => {
 export default App;
 
 const ContainerWrapper = styled(Container)`
-  padding-right: 56px;
+  && {
+    padding-right: 56px;
+  }
 `;
