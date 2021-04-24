@@ -57,42 +57,48 @@ const Timeline = (props: Props): JSX.Element => {
   return (
     <>
       <PaperWrapper elevation={0}>
-        <FabWrapper aria-label="add" onClick={onAdd}>
+        {!project.name && <TypographyNoProject>Name Your Project to Begin</TypographyNoProject>}
+        {project.name && !clips.length && (
+          <TypographyNoProject>Click + to Add Clips to This Project</TypographyNoProject>
+        )}
+        <FabWrapper aria-label="add" onClick={onAdd} disabled={!project.name}>
           <AddIcon />
         </FabWrapper>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable" direction="horizontal">
-            {(provided) => (
-              <FlexWrapper ref={provided.innerRef} {...provided.droppableProps}>
-                {clips.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          widths[index],
-                          snapshot.isDragging,
-                          index,
-                          provided.draggableProps.style
-                        )}
-                        onMouseDown={() => {
-                          setSelectedClip(index);
-                        }}
-                      >
-                        <ClipCard imageurl={item.thumbnailUrl} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </FlexWrapper>
-            )}
-          </Droppable>
-        </DragDropContext>
+        {project.name && clips.length && (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable" direction="horizontal">
+              {(provided) => (
+                <FlexWrapper ref={provided.innerRef} {...provided.droppableProps}>
+                  {clips.map((item, index) => (
+                    <Draggable key={index.toString()} draggableId={index.toString()} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            widths[index],
+                            snapshot.isDragging,
+                            index,
+                            provided.draggableProps.style
+                          )}
+                          onMouseDown={() => {
+                            setSelectedClip(index);
+                          }}
+                        >
+                          <ClipCard imageurl={item.thumbnailUrl} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </FlexWrapper>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
       </PaperWrapper>
-      <Typography>{getTotalTime(clips)}</Typography>
+      {project.name && clips.length > 0 && <Typography>{getTotalTime(clips)}</Typography>}
     </>
   );
 };
@@ -106,6 +112,8 @@ const PaperWrapper = styled(Paper)`
   padding: 5px;
   height: 134px;
   position: relative;
+  align-items: center;
+  justify-content: center;
 `;
 
 const FlexWrapper = styled.div`
@@ -127,4 +135,10 @@ const FabWrapper = styled(Fab)`
   &: hover {
     background-color: rgb(136, 84, 208);
   }
+`;
+
+const TypographyNoProject = styled(Typography)`
+  text-align: center;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.54);
 `;

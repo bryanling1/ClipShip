@@ -1,7 +1,7 @@
 import CheckIcon from '@material-ui/icons/Check';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import Loader from '../../loader';
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -113,7 +113,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
             </IconButton>
           )}
 
-          {isLoading && <CircularProgressWrapper size={25} />}
+          {isLoading && <Loader size={25} />}
         </>
       )}
     </MainWrapper>
@@ -137,9 +137,4 @@ const TypographyWrapper = styled(Typography)`
     border-radius: 4px;
     cursor: pointer;
   }
-`;
-
-const CircularProgressWrapper = styled(CircularProgress)`
-  margin: auto;
-  margin-left: 5px;
 `;

@@ -1,5 +1,6 @@
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
+import Loader from '../../loader';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import React, { useEffect, useState } from 'react';
@@ -25,11 +26,17 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
   const open = Boolean(anchorEl);
   const [projectsList, setProjectList] = useState<Project[]>([]);
   const [id, setId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (open) {
+      setLoading(true);
+      setProjectList([]);
       axios.get<Project[]>('http://localhost:3000/projects').then((result) => {
-        setProjectList(result.data.map((project) => ({ name: project.name, id: project.id })));
+        setProjectList(
+          result.data.map((project) => ({ name: project.name, id: project.id })).reverse()
+        );
+        setLoading(false);
       });
     }
   }, [open]);
@@ -77,6 +84,10 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
           },
         }}
       >
+        <CreateProjectButton key={'create-new-project'} selected onClick={handleCreateProject}>
+          + Create Project
+        </CreateProjectButton>
+        {loading && <Loader size={25} />}
         {projectsList.map((project) => (
           <MenuItemWrapper key={project.id} selected={id === project.id ? 1 : 0}>
             <MenuItem
@@ -90,9 +101,6 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
             </MenuItem>
           </MenuItemWrapper>
         ))}
-        <CreateProjectButton key={'create-new-project'} selected onClick={handleCreateProject}>
-          + Create Project
-        </CreateProjectButton>
       </Menu>
     </>
   );
