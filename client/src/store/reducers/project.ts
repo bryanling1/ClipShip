@@ -6,6 +6,7 @@ export const initState: Project = {
   name: null,
   error: null,
   selectedClip: null,
+  dbClips: [],
 };
 
 const projectReducer = (state: Project = initState, action: ProjectAction): Project => {
@@ -18,6 +19,8 @@ const projectReducer = (state: Project = initState, action: ProjectAction): Proj
       return { ...state, name: action.content };
     case ProjectActions.SET_PROJECT_SELECTED_CLIP:
       return { ...state, selectedClip: action.index };
+    case ProjectActions.SET_DB_CLIPS:
+      return { ...state, dbClips: action.clips };
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 const mapStateToProps = (state: StoreState) => ({
   project: state.project,
+  clips: state.clips,
 });
 
 const connector = connect(mapStateToProps, actions);
@@ -17,7 +18,16 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 const ProjectName = (props: Props) => {
-  const { project, createProject, editName, fetchProject, setProject } = props;
+  const {
+    project,
+    createProject,
+    editName,
+    fetchProject,
+    setProject,
+    saveProject,
+    clips,
+    deleteProject,
+  } = props;
   const handleSetProject = (id: string) => {
     fetchProject(id);
   };
@@ -33,6 +43,19 @@ const ProjectName = (props: Props) => {
     setProject(null, null);
   };
 
+  const handleSaveProject = () => {
+    if (clips.length > 0 && project.id) {
+      saveProject(project.id, clips);
+    }
+  };
+
+  const handleDeleteProject = () => {
+    if (project.id) {
+      deleteProject(project.id);
+    }
+  };
+
+  const canSave = JSON.stringify(project.dbClips) !== JSON.stringify(clips);
   return (
     <MainWrapper>
       <ProjectsDropdown
@@ -45,6 +68,9 @@ const ProjectName = (props: Props) => {
         editMode={false}
         onCreate={handleCreate}
         onNameChange={handleNameChange}
+        onSaveProject={handleSaveProject}
+        canSave={canSave}
+        onDeleteProject={handleDeleteProject}
       />
     </MainWrapper>
   );
@@ -55,4 +81,5 @@ export default connector(ProjectName);
 const MainWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 `;

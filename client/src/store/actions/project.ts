@@ -10,6 +10,7 @@ export enum ProjectActions {
   SET_PROJECT_ERROR = 'SET_PROJECT_ERROR',
   SET_PROJECT_SELECTED_CLIP = 'SET_PROJECT_SELECTED_CLIP',
   EDIT_NAME = 'EDIT_NAME',
+  SET_DB_CLIPS = 'SET_DB_CLIPS',
 }
 
 interface EmptyAction {
@@ -31,7 +32,7 @@ interface SetProjectErrorAction {
   val: boolean;
 }
 
-interface setProjectSelectedClipAction {
+interface SetProjectSelectedClipAction {
   type: ProjectActions.SET_PROJECT_SELECTED_CLIP;
   index: number | null;
 }
@@ -41,9 +42,18 @@ interface EditNameAction {
   content: string;
 }
 
+interface SetDBClipsActions {
+  type: ProjectActions.SET_DB_CLIPS;
+  clips: Clip[];
+}
+
 interface fetchProjectQuerySingular {
   id: string;
   name: string;
+  clips: Clip[];
+}
+
+interface PatchProjectQuery {
   clips: Clip[];
 }
 
@@ -54,7 +64,8 @@ export type ProjectAction =
   | SetProjectAction
   | SetProjectErrorAction
   | EditNameAction
-  | setProjectSelectedClipAction;
+  | SetProjectSelectedClipAction
+  | SetDBClipsActions;
 
 export function setProject(id: string | null, name: string | null): ProjectAction {
   return { type: ProjectActions.SET_PROJECT, payload: { id, name } };
@@ -70,6 +81,10 @@ export function setName(content: string): ProjectAction {
 
 export function setSelectedClip(index: number | null): ProjectAction {
   return { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index };
+}
+
+export function setDBClips(clips: Clip[]): ProjectAction {
+  return { type: ProjectActions.SET_DB_CLIPS, clips };
 }
 
 export const fetchProject = (
@@ -90,8 +105,25 @@ export const fetchProject = (
     dispatch(setProjectError(false));
     dispatch(setSelectedClip(result.data[0].clips && result.data[0].clips.length ? 0 : null));
     dispatch(setClips(result.data[0].clips || []));
+    dispatch(setDBClips(result.data[0].clips || []));
   } else {
     dispatch(setProjectError(true));
+  }
+};
+
+export const deleteProject = (
+  id: string
+): ThunkAction<void, StoreState, unknown, ProjectAction | ClipAction> => async (dispatch) => {
+  let error = null;
+  await axios.delete(`http://localhost:3000/projects/${id}`).catch((e) => {
+    error = e;
+  });
+  if (error) {
+    dispatch(setProjectError(true));
+    return;
+  } else {
+    dispatch(setProjectError(false));
+    dispatch(setProject(null, null));
   }
 };
 
@@ -118,13 +150,16 @@ export const saveProject = (
   clips: Clip[]
 ): ThunkAction<void, StoreState, unknown, ProjectAction> => async (dispatch) => {
   let error;
-  await axios.patch(`http://localhost:3000/projects/${id}`, { clips }).catch((e) => {
-    error = e;
-  });
-  if (error) {
+  const result = await axios
+    .patch<PatchProjectQuery>(`http://localhost:3000/projects/${id}`, { clips })
+    .catch((e) => {
+      error = e;
+    });
+  if (error || !result) {
     dispatch(setProjectError(true));
   } else {
     dispatch(setProjectError(false));
+    dispatch(setDBClips(result.data.clips || []));
   }
 };
 

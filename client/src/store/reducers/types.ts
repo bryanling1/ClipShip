@@ -28,6 +28,7 @@ export interface Project {
   name: string | null;
   error: boolean | null;
   selectedClip: number | null;
+  dbClips: Clip[];
 }
 
 export interface StoreState {

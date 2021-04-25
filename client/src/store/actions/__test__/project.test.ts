@@ -4,9 +4,11 @@ import { Middleware } from 'redux';
 import {
   ProjectActions,
   createProject,
+  deleteProject,
   editName,
   fetchProject,
   saveProject,
+  setDBClips,
   setName,
   setProject,
   setProjectError,
@@ -68,7 +70,7 @@ describe('Project action creators', () => {
     };
     expect(setSelectedClip(0)).toEqual(expectedState);
   });
-  it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, SET_PROJECT_SELECTED_CLIP when fetching project has been done and there are clips', () => {
+  it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, SET_PROJECT_SELECTED_CLIP, SET_DB_CLIPS when fetching project has been done and there are clips', () => {
     mock
       .onGet('http://localhost:3000/projects?id=project_id_1')
       .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: [clip] }]);
@@ -81,6 +83,7 @@ describe('Project action creators', () => {
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
       { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: 0 },
       { type: ClipActions.SET_CLIPS, clips: [clip] },
+      { type: ProjectActions.SET_DB_CLIPS, clips: [clip] },
     ];
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
@@ -104,6 +107,7 @@ describe('Project action creators', () => {
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
       { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: null },
       { type: ClipActions.SET_CLIPS, clips: [] },
+      { type: ProjectActions.SET_DB_CLIPS, clips: [] },
     ];
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
@@ -184,10 +188,29 @@ describe('Project action creators', () => {
     });
   });
 
-  it('creates SET_PROJECT_ERROR when updating project clips has succeeded', () => {
-    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200);
+  it('creates SET_PROJECT_ERROR and SAVE_DB_CLIPS when updating project clips has succeeded', () => {
+    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200, { clips: [clip] });
 
-    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: false }];
+    const expectedActions = [
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_DB_CLIPS, clips: [clip] },
+    ];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(saveProject('project_id_1', [])).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR and SAVE_DB_CLIPS when updating project clips has succeeded and no clips are returned', () => {
+    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200, [{ clips: [] }]);
+
+    const expectedActions = [
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_DB_CLIPS, clips: [] },
+    ];
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
 
@@ -239,6 +262,43 @@ describe('Project action creators', () => {
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
 
     return store.dispatch<any>(createProject('project_id_1')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('create an action for setting DB clips', () => {
+    const expectedAction = {
+      type: ProjectActions.SET_DB_CLIPS,
+      clips: [clip],
+    };
+    expect(setDBClips([clip])).toEqual(expectedAction);
+  });
+
+  it('creates SET_PROJECT_ERROR and SET_PROJECT project has deleted', () => {
+    mock.onDelete('http://localhost:3000/projects/project_id_1').reply(200);
+
+    const expectedActions = [
+      { type: ProjectActions.SET_PROJECT_ERROR, val: false },
+      { type: ProjectActions.SET_PROJECT, payload: { id: null, name: null } },
+    ];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(deleteProject('project_id_1')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
+
+  it('creates SET_PROJECT_ERROR when project delete fails', () => {
+    mock.onDelete('http://localhost:3000/projects/project_id_1').reply(400);
+
+    const expectedActions = [{ type: ProjectActions.SET_PROJECT_ERROR, val: true }];
+
+    const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
+
+    return store.dispatch<any>(deleteProject('project_id_1')).then(() => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
     });

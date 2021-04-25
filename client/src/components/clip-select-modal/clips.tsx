@@ -1,7 +1,7 @@
 import { Clip } from '../../store/reducers/types';
 import { getTotalTime } from '../../utils/timeline';
 import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
+import ButtonWrapper from '../button';
 import ClipCard from '../clip-card';
 import Loader from '../loader';
 import React, { useState } from 'react';
@@ -128,21 +128,6 @@ const CenterText = styled.div`
 
 const TypographyWrapper = styled(Typography)`
   color: rgb(136, 84, 208);
-`;
-
-export const ButtonWrapper = styled((otherProps) => <Button {...otherProps} />)`
-  && {
-    background-color: rgb(136, 84, 208);
-    color: white;
-    margin: auto;
-    display: flex;
-    margin-left: ${(props) => (props.marginleft >= 0 ? `${props.marginleft}px` : 'auto')};
-    height: ${(props) => (props.height ? `${props.height}px` : 'intial')};
-    padding: ${(props) => (props.padding ? `${props.padding}px` : 'intial')};
-  }
-  &&: hover {
-    background-color: rgb(136, 84, 208);
-  }
 `;
 
 const AddClipsWrapper = styled.div`
