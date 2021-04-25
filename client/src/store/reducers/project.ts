@@ -1,5 +1,6 @@
 import { Project } from './types';
-import { ProjectAction, ProjectActions } from '../actions';
+import { ProjectAction } from '../actions';
+import { Actions as ProjectActions } from '../actions/types';
 
 export const initState: Project = {
   id: null,
@@ -12,13 +13,18 @@ export const initState: Project = {
 const projectReducer = (state: Project = initState, action: ProjectAction): Project => {
   switch (action.type) {
     case ProjectActions.SET_PROJECT:
-      return { ...state, id: action.payload.id, name: action.payload.name };
+      return {
+        ...state,
+        dbClips: [...state.dbClips],
+        id: action.payload.id,
+        name: action.payload.name,
+      };
     case ProjectActions.SET_PROJECT_ERROR:
-      return { ...state, error: action.val };
+      return { ...state, dbClips: [...state.dbClips], error: action.val };
     case ProjectActions.EDIT_NAME:
-      return { ...state, name: action.content };
+      return { ...state, dbClips: [...state.dbClips], name: action.content };
     case ProjectActions.SET_PROJECT_SELECTED_CLIP:
-      return { ...state, selectedClip: action.index };
+      return { ...state, dbClips: [...state.dbClips], selectedClip: action.index };
     case ProjectActions.SET_DB_CLIPS:
       return { ...state, dbClips: action.clips };
     default:

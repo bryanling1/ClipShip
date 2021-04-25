@@ -35,11 +35,16 @@ const LabelOption = (props: OwnProps): JSX.Element => {
   return (
     <MainWrapper>
       <Top>
-        <Checkbox checked={label} onChange={onEnable} />
+        <CheckboxWrapper accent={label ? 1 : 0} checked={label} onClick={onEnable} />
         <TypographyWrapper variant="h5">Label</TypographyWrapper>
-        <Checkbox checked={useGlobal} onClick={onGlobal} disabled={!label} />
+        <CheckboxWrapper
+          accent={useGlobal ? 1 : 0}
+          checked={useGlobal}
+          onClick={onGlobal}
+          disabled={!label}
+        />
         <IconButton onClick={onEnableGlobal} disabled={!label}>
-          <GlobeIconWrapper isGlobal={isGlobal} disabled={!label ? 1 : 0} />
+          <GlobeIconWrapper accent={isGlobal ? 1 : 0} disabled={!label ? 1 : 0} />
         </IconButton>
       </Top>
       <PositionWrapper disabled={!label ? 1 : 0}>
@@ -49,7 +54,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.LEFT_TOP);
             }}
             checked={isChecked(LabelPosition.LEFT_TOP)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.LEFT_TOP}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.LEFT_TOP ? 1 : 0}
             disabled={!label}
           />
           <CheckboxWrapper
@@ -57,7 +62,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.CENTER_TOP);
             }}
             checked={isChecked(LabelPosition.CENTER_TOP)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.CENTER_TOP}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.CENTER_TOP ? 1 : 0}
             disabled={!label}
           />
           <CheckboxWrapper
@@ -65,7 +70,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.RIGHT_TOP);
             }}
             checked={isChecked(LabelPosition.RIGHT_TOP)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.RIGHT_TOP}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.RIGHT_TOP ? 1 : 0}
             disabled={!label}
           />
         </PositionTop>
@@ -75,7 +80,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.LEFT_BOTTOM);
             }}
             checked={isChecked(LabelPosition.LEFT_BOTTOM)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.LEFT_BOTTOM}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.LEFT_BOTTOM ? 1 : 0}
             disabled={!label}
           />
           <CheckboxWrapper
@@ -83,7 +88,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.CENTER_BOTTOM);
             }}
             checked={isChecked(LabelPosition.CENTER_BOTTOM)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.CENTER_BOTTOM}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.CENTER_BOTTOM ? 1 : 0}
             disabled={!label}
           />
           <CheckboxWrapper
@@ -91,7 +96,7 @@ const LabelOption = (props: OwnProps): JSX.Element => {
               onSetLabelPosition(LabelPosition.RIGHT_BOTTOM);
             }}
             checked={isChecked(LabelPosition.RIGHT_BOTTOM)}
-            isGlobal={useGlobal && labelGlobalPosition === LabelPosition.RIGHT_BOTTOM}
+            accent={useGlobal && labelGlobalPosition === LabelPosition.RIGHT_BOTTOM ? 1 : 0}
             disabled={!label}
           />
         </PositionBottom>
@@ -147,13 +152,44 @@ const PositionBottom = styled.div`
 
 const GlobeIconWrapper = styled((otherProps) => <GlobeIcon {...otherProps} />)`
   && {
-    fill: ${(props) => (props.isGlobal ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   }
 `;
 
 const CheckboxWrapper = styled((otherProps) => <Checkbox {...otherProps} />)`
   && > .MuiIconButton-label > .MuiSvgIcon-root {
-    fill: ${(props) => (props.isGlobal ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  && > .MuiIconButton-label:hover > .MuiSvgIcon-root:hover {
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  &&& .MuiCheckbox-colorSecondary {
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  && > .MuiCheckbox-colorSecondary .Mui-checked {
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  && > .MuiCheckbox-colorSecondary .Mui-checked:hover {
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  &&& {
+    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+  }
+
+  &&&&:hover {
+    background-color: ${(props) =>
+      props.accent ? 'rgba(136,84,208, 0.2)' : 'rgba(0, 0, 0, 0.05)'};
   }
 `;

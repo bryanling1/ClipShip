@@ -57,14 +57,10 @@ const Timeline = (props: Props): JSX.Element => {
   return (
     <>
       <PaperWrapper elevation={0}>
-        {!project.name && <TypographyNoProject>Name Your Project to Begin</TypographyNoProject>}
-        {project.name && !clips.length && (
-          <TypographyNoProject>Click + to Add Clips to This Project</TypographyNoProject>
-        )}
         <FabWrapper aria-label="add" onClick={onAdd} disabled={!project.name}>
           <AddIcon />
         </FabWrapper>
-        {project.name && clips.length && (
+        {project.name && clips.length > 0 && (
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided) => (
@@ -142,10 +138,4 @@ const FabWrapper = styled(Fab)`
   &&: hover {
     background-color: rgb(136, 84, 208);
   }
-`;
-
-const TypographyNoProject = styled(Typography)`
-  text-align: center;
-  width: 100%;
-  color: rgba(0, 0, 0, 0.54);
 `;

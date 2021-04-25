@@ -1,8 +1,7 @@
 import { Clip } from '../../reducers/types';
-import { ClipActions } from '../clips';
+import { Actions as ClipActions } from '../types';
 import { Middleware } from 'redux';
 import {
-  ProjectActions,
   createProject,
   deleteProject,
   editName,
@@ -18,6 +17,8 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
+const ProjectActions = ClipActions;
 
 const middlewares: Middleware[] = [thunk];
 const mockStore = configureMockStore(middlewares);

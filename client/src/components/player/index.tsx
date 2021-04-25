@@ -50,14 +50,16 @@ const Player = (props: OwnProps): JSX.Element => {
         </NoClip>
       )}
       {start !== undefined && end !== undefined && length !== undefined && (
-        <SliderWrapper
-          value={[value[0], value[1]]}
-          max={length}
-          onChange={handleChange}
-          step={0.01}
-          onMouseUp={handleEndDragging}
-          onMouseLeave={handleEndDragging}
-        />
+        <SliderContainer>
+          <SliderWrapper
+            value={[value[0], value[1]]}
+            max={length}
+            onChange={handleChange}
+            step={0.01}
+            onMouseUp={handleEndDragging}
+            onMouseLeave={handleEndDragging}
+          />
+        </SliderContainer>
       )}
 
       {!start && !end && !length && <SliderWrapper value={[25, 75]} />}
@@ -80,7 +82,12 @@ const NoClip = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
+const SliderContainer = styled.div`
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 20px;
+  box-sizing: border-box;
+`;
 const SliderWrapper = styled(Slider)`
   && .MuiSlider-rail {
     height: 10px;

@@ -1,18 +1,5 @@
 import { Clip, LabelPosition } from '../reducers/types';
-
-export enum ClipActions {
-  EDIT_CLIP_START_END = 'EDIT_CLIP_START_END',
-  SWAP_CLIPS = 'SWAP_CLIPS',
-  ENABLE_LABEL = 'ENABLE_LABEL',
-  SET_LABEL_POSITION = 'SET_LABEL_POSITION',
-  SET_GLOBAL_LABEL_POSITION = 'SET_GLOBAL_LABEL_PSOITION',
-  ADD_CLIPS = 'ADD_CLIPS',
-  SET_CLIPS = 'SET_CLIPS',
-  DELETE_CLIP = 'DELETE_CLIP',
-  EMPTY = 'EMPTY_CLIPS',
-  SET_GLOBAL_LABEL = 'SET_GLOBAL_LABEL',
-  SET_ALL_GLOBAL_LABELS_OFF = 'SET_ALL_GLOBAL_LABELS_OFF',
-}
+import { Actions as ClipActions } from './types';
 
 interface StartEnd {
   index: number;

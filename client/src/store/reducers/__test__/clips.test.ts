@@ -1,6 +1,6 @@
-import { Clip, LabelPosition } from '../../reducers/types';
+import { Clip, LabelPosition } from '../types';
+import { Actions as ClipActions } from '../../actions/types';
 import {
-  ClipActions,
   addClips,
   deleteClip,
   editClipStartEnd,

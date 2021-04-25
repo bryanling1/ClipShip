@@ -49,6 +49,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
     if (content) {
       setValue(content);
       setIsEditMode(false);
+      setDeleteProjectButton(false);
     }
   };
 

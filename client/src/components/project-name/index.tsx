@@ -1,6 +1,7 @@
 import * as actions from '../../store/actions';
 import { ConnectedProps, connect } from 'react-redux';
 import { StoreState } from '../../store/reducers/types';
+import { areClipsSame } from '../../utils/clips';
 import ProjectNameEdit from './project-name';
 import ProjectsDropdown from './project-dropdown';
 import React from 'react';
@@ -54,8 +55,9 @@ const ProjectName = (props: Props) => {
       deleteProject(project.id);
     }
   };
+  console.log(project.dbClips, clips);
+  const canSave = !areClipsSame(project.dbClips, clips);
 
-  const canSave = JSON.stringify(project.dbClips) !== JSON.stringify(clips);
   return (
     <MainWrapper>
       <ProjectsDropdown

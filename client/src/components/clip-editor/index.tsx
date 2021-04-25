@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Options from './options';
 import Player from '../player';
 import React, { useState } from 'react';
+import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
 const mapStateToProps = (state: StoreState) => ({
@@ -41,6 +42,17 @@ const ClipEditor = (props: Props): JSX.Element => {
 
   return (
     <MainWrapper>
+      {!project.name && (
+        <TypographyNoProject>
+          Name Your Project <b>Above</b> to Begin
+        </TypographyNoProject>
+      )}
+      {project.name && !clips.length && (
+        <TypographyNoProject>
+          Click <b>+ Below</b> to Add Clips to your Project
+        </TypographyNoProject>
+      )}
+
       <DeleteClipModal
         open={isDeleteModal}
         handleClose={handleCloseDeleteClipModal}
@@ -85,19 +97,21 @@ const MainWrapper = styled.div`
   margin-bottom: 20px;
   display: flex;
   height: 500px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 `;
 
 const Left = styled.div`
   flex: 0.6;
   height: 100%;
-  padding: 20px;
+  padding-right: 30px;
   position: relative;
 `;
 
 const Right = styled.div`
   flex: 0.4;
   height: 100%;
-  padding: 20px;
   box-sizing: border-box;
 `;
 
@@ -108,4 +122,10 @@ const IconButtonWrapper = styled(IconButton)`
     right: 0;
     margin-top: 10px;
   }
+`;
+
+const TypographyNoProject = styled(Typography)`
+  text-align: center;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.54);
 `;

@@ -1,14 +1,16 @@
 import { Clip } from './types';
-import { ClipAction, ClipActions } from '../actions';
+import { ClipAction } from '../actions';
+import { Actions as ClipActions } from '../actions/types';
 
 const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
   switch (action.type) {
     case ClipActions.EDIT_CLIP_START_END:
       if (action.payload.index >= 0 && action.payload.index < state.length) {
-        const temp = [...state];
-        temp[action.payload.index].start = action.payload.start;
-        temp[action.payload.index].end = action.payload.end;
-        return temp;
+        return state.map((data, i) =>
+          i === action.payload.index
+            ? { ...data, start: action.payload.start, end: action.payload.end }
+            : { ...data }
+        );
       } else {
         return state;
       }
@@ -29,17 +31,19 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       }
     case ClipActions.ENABLE_LABEL:
       if (action.payload.index >= 0 && action.payload.index < state.length) {
-        const temp = [...state];
-        temp[action.payload.index].label = action.payload.val;
-        return temp;
+        return state.map((data, i) =>
+          i === action.payload.index ? { ...data, label: action.payload.val } : { ...data }
+        );
       } else {
         return state;
       }
     case ClipActions.SET_LABEL_POSITION:
       if (action.payload.index >= 0 && action.payload.index < state.length) {
-        const temp = [...state];
-        temp[action.payload.index].labelPosition = action.payload.position;
-        return temp;
+        return state.map((data, i) =>
+          i === action.payload.index
+            ? { ...data, labelPosition: action.payload.position }
+            : { ...data }
+        );
       } else {
         return state;
       }
@@ -58,9 +62,9 @@ const clipsReducer = (state: Clip[] = [], action: ClipAction): Clip[] => {
       }
     case ClipActions.SET_GLOBAL_LABEL:
       if (action.index >= 0 && action.index < state.length) {
-        const temp = [...state];
-        temp[action.index].labelGlobal = action.val;
-        return temp;
+        return state.map((data, i) =>
+          i === action.index ? { ...data, labelGlobal: action.val } : { ...data }
+        );
       } else {
         return state;
       }

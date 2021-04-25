@@ -1,17 +1,9 @@
 import { Clip } from '../reducers/types';
 import { ClipAction, setClips } from '../actions/clips';
+import { Actions as ProjectActions } from './types';
 import { StoreState } from '../reducers/types';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
-
-export enum ProjectActions {
-  EMPTY = 'EMPTY_PROJECT',
-  SET_PROJECT = 'SET_PROJECT',
-  SET_PROJECT_ERROR = 'SET_PROJECT_ERROR',
-  SET_PROJECT_SELECTED_CLIP = 'SET_PROJECT_SELECTED_CLIP',
-  EDIT_NAME = 'EDIT_NAME',
-  SET_DB_CLIPS = 'SET_DB_CLIPS',
-}
 
 interface EmptyAction {
   type: ProjectActions.EMPTY;

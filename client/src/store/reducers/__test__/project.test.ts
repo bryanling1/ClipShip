@@ -1,5 +1,5 @@
+import { Actions as ProjectActions } from '../../actions/types';
 import {
-  ProjectActions,
   setDBClips,
   setName,
   setProject,
