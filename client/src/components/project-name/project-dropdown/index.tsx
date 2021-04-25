@@ -1,3 +1,4 @@
+import ErrorModal from '../../modal/modals/no-save';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import Loader from '../../loader';
@@ -18,15 +19,17 @@ interface OwnProps {
   onSetProject: (id: string) => void;
   onNewProject: () => void;
   id: string | null;
+  canSave: boolean;
 }
 
 const ProjectDropdown = (props: OwnProps): JSX.Element => {
-  const { onSetProject, onNewProject, id: projectId } = props;
+  const { onSetProject, onNewProject, id: projectId, canSave } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [projectsList, setProjectList] = useState<Project[]>([]);
   const [id, setId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorModal, setErrorModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (open) {
@@ -56,13 +59,23 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
   };
 
   const handleCreateProject = () => {
-    handleClose();
-    setId('');
-    onNewProject();
+    if (canSave) {
+      setErrorModal(true);
+    } else {
+      handleClose();
+      setId('');
+      onNewProject();
+    }
   };
 
   return (
     <>
+      <ErrorModal
+        open={errorModal}
+        onClose={() => {
+          setErrorModal(false);
+        }}
+      />
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -92,9 +105,13 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
           <MenuItemWrapper key={project.id} selected={id === project.id ? 1 : 0}>
             <MenuItem
               onClick={() => {
-                onSetProject(project.id);
-                handleClose();
-                setId(project.id);
+                if (canSave) {
+                  setErrorModal(true);
+                } else {
+                  onSetProject(project.id);
+                  handleClose();
+                  setId(project.id);
+                }
               }}
             >
               {project.name}

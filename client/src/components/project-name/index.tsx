@@ -64,6 +64,7 @@ const ProjectName = (props: Props) => {
         onSetProject={handleSetProject}
         onNewProject={handleNewProject}
         id={project.id}
+        canSave={canSave}
       />
       <ProjectNameEdit
         content={project.name}
