@@ -13,6 +13,10 @@
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "./src/test/setup.ts"
+    ],
+    "collectCoverageFrom": [
+      "<rootDir>/src/routes/**/*.ts",
+      "!<rootDir>/node_modules"
     ]
   },
   "husky": {
