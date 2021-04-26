@@ -70,3 +70,15 @@ BRDA:41,4,1,1
 BRF:9
 BRH:9
 end_of_record
+TN:
+SF:src\routes\twitch.ts
+FNF:0
+FNH:0
+DA:1,0
+DA:3,0
+DA:5,0
+LF:3
+LH:0
+BRF:0
+BRH:0
+end_of_record
