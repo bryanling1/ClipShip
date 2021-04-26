@@ -128,12 +128,12 @@ export default ProjectDropdown;
 const CreateProjectButton = styled(MenuItem)`
   &&& {
     color: white;
-    background-color: #8854d0;
+    background-color: ${(props) => props.theme.colors.primary};
     text-align: center;
     font-weight: bold;
   }
   &&&:hover {
-    background-color: #8854d0;
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 
@@ -141,5 +141,5 @@ interface MenuItemWrapperProps {
   selected: number;
 }
 const MenuItemWrapper = styled.div<MenuItemWrapperProps>`
-  color: ${(props) => (props.selected ? ' #8854d0' : 'initial')};
+  color: ${(props) => (props.selected ? props.theme.colors.primary : 'initial')};
 `;

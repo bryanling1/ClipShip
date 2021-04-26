@@ -35,6 +35,7 @@ const Player = (props: OwnProps): JSX.Element => {
     <MainWrapper>
       {title && <Typography variant="h5">{title}</Typography>}
       {broadcaster && <Typography variant="subtitle1">{broadcaster}</Typography>}
+      <br />
       {url && (
         <iframe
           src={`${url}&parent=localhost&autoplay=true`}
@@ -91,25 +92,26 @@ const SliderContainer = styled.div`
 const SliderWrapper = styled(Slider)`
   && .MuiSlider-rail {
     height: 10px;
-    background-color: rgba(0, 0, 0, 0.54);
+    background-color: ${(props) => props.theme.colors.white2};
+    opacity: 1;
   }
 
   && .MuiSlider-active {
-    box-shadow: 0px 0px 0px 10px rgb(136, 84, 208, 0.54);
+    box-shadow: 0px 0px 0px 10px ${(props) => props.theme.colors.primaryShadow};
   }
 
   && .MuiSlider-track {
     height: 10px;
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primaryDark};
   }
 
   && .MuiSlider-thumb {
     height: 20px;
     width: 20px;
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
   }
 
   && .MuiSlider-thumb:hover {
-    box-shadow: 0px 0px 0px 7px rgb(136, 84, 208, 0.3);
+    box-shadow: 0px 0px 0px 7px ${(props) => props.theme.colors.primaryShadow};
   }
 `;

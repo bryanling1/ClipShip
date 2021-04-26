@@ -91,7 +91,7 @@ const ClipEditor = (props: Props): JSX.Element => {
 export default connector(ClipEditor);
 
 const MainWrapper = styled.div`
-  background-color: #f5f5f5;
+  background-color: ${(props) => props.theme.colors.white1};
   width: 100%;
   min-height: 500px;
   margin-bottom: 20px;
@@ -120,7 +120,8 @@ const IconButtonWrapper = styled(IconButton)`
     position: absolute;
     top: 0;
     right: 0;
-    margin-top: 10px;
+    margin-top: -10px;
+    margin-right: 10px;
   }
 `;
 

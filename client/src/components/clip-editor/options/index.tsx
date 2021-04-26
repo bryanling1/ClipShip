@@ -84,7 +84,7 @@ export default connector(Options);
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.14);
+  background-color: ${(props) => props.theme.colors.white2};
   padding: 10px;
   box-sizing: border-box;
 `;

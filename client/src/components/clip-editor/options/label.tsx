@@ -159,37 +159,37 @@ const GlobeIconWrapper = styled((otherProps) => <GlobeIcon {...otherProps} />)`
 
 const CheckboxWrapper = styled((otherProps) => <Checkbox {...otherProps} />)`
   && > .MuiIconButton-label > .MuiSvgIcon-root {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   && > .MuiIconButton-label:hover > .MuiSvgIcon-root:hover {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   &&& .MuiCheckbox-colorSecondary {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   && > .MuiCheckbox-colorSecondary .Mui-checked {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   && > .MuiCheckbox-colorSecondary .Mui-checked:hover {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   &&& {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
   }
 
   &&&&:hover {
     background-color: ${(props) =>
-      props.accent ? 'rgba(136,84,208, 0.2)' : 'rgba(0, 0, 0, 0.05)'};
+      props.accent ? props.theme.colors.primaryShadow : 'rgba(0, 0, 0, 0.05)'};
   }
 `;

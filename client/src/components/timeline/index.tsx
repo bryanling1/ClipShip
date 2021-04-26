@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import theme from '../../themes/default';
 
 const mapStateToProps = (state: StoreState) => ({
   project: state.project,
@@ -32,7 +33,7 @@ const Timeline = (props: Props): JSX.Element => {
   const widths = getClipWidths(clips);
   const getItemStyle = (width, isDragging, index, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
-    borderColor: '#8854d0',
+    borderColor: theme.colors.primary,
     borderStyle: 'solid',
     borderWidth: index === selectedClip ? 4 : 0,
     opacity: isDragging || index === selectedClip ? 1 : 0.5,
@@ -108,7 +109,7 @@ export default connector(Timeline);
 
 const PaperWrapper = styled(Paper)`
   && {
-    background-color: #f5f5f5;
+    background-color: ${(props) => props.theme.colors.white1};
     width: 100%;
     display: flex;
     padding: 5px;
@@ -132,10 +133,10 @@ const FabWrapper = styled(Fab)`
     right: 0;
     top: 44px;
     z-index: 2;
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
     color: white;
   }
   &&: hover {
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;

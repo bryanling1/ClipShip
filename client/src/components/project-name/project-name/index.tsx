@@ -214,8 +214,8 @@ const TypographyWrapper = styled(Typography)`
     position: relative;
   }
   &:hover {
-    border: 2px solid rgba(0, 0, 0, 0.54);
-    border-radius: 4px;
+    border: 3px solid rgba(0, 0, 0, 0.54);
+    border-radius: 6px;
     cursor: pointer;
     padding-right: 100px;
     padding-left: -2px;

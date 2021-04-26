@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const ButtonWrapper = styled((otherProps) => <Button {...otherProps} />)`
   && {
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
     color: white;
     margin: auto;
     display: flex;
@@ -13,7 +13,7 @@ const ButtonWrapper = styled((otherProps) => <Button {...otherProps} />)`
     padding: ${(props) => (props.padding ? `${props.padding}px` : 'intial')};
   }
   &&: hover {
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 

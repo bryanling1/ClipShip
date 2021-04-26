@@ -99,7 +99,8 @@ const MainWrapper = styled.div<MainWrapperProps>`
   background-position: center center;
   border-radius: 5px;
   margin: ${(props) => (props.margin ? `${props.margin}px` : 0)};
-  border: ${(props) => (props.border ? `${props.border}px` : 0)} solid rgb(136, 84, 208);
+  border: ${(props) => (props.border ? `${props.border}px` : 0)} solid
+    ${(props) => props.theme.colors.primary};
   cursor: ${(props) => (props.cursor ? props.cursor : 'initial')};
   opacity: ${(props) => (props.opacity ? props.opacity : 'initial')};
 `;
@@ -114,7 +115,7 @@ const SmallAvatar = styled(Avatar)`
     width: 20px;
     height: 20px;
     transform: scale(0.8);
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 
@@ -122,7 +123,7 @@ const SquareAvatar = styled(Avatar)`
   && {
     width: 25px;
     height: 25px;
-    background-color: rgb(136, 84, 208);
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 
