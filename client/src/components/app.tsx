@@ -39,6 +39,9 @@ export default App;
 
 const ContainerWrapper = styled(Container)`
   && {
-    padding-right: 56px;
+    padding-right: 60px;
+    position: relative;
+    box-sizing: border-box;
+    overflow: visible;
   }
 `;

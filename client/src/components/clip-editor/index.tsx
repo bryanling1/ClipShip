@@ -58,7 +58,7 @@ const ClipEditor = (props: Props): JSX.Element => {
         handleClose={handleCloseDeleteClipModal}
         handleDelete={handleDeleteClip}
       />
-      {clips.length > 0 && clip && (
+      {project.name && clips.length > 0 && clip && (
         <>
           <Left>
             <IconButtonWrapper
@@ -73,10 +73,10 @@ const ClipEditor = (props: Props): JSX.Element => {
               url={clip.url}
               start={clip.start}
               end={clip.end}
-              length={clip.length}
+              length={clip.duration}
               title={clip.title}
               broadcaster={clip.broadcaster}
-              height={360}
+              height={500}
             />
           </Left>
           <Right>
@@ -96,10 +96,11 @@ const MainWrapper = styled.div`
   min-height: 500px;
   margin-bottom: 20px;
   display: flex;
-  height: 500px;
+  height: 600px;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
+  border-radius: 8px;
 `;
 
 const Left = styled.div`

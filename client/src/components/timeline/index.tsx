@@ -35,12 +35,12 @@ const Timeline = (props: Props): JSX.Element => {
     // some basic styles to make the items look a bit nicer
     borderColor: theme.colors.primary,
     borderStyle: 'solid',
-    borderWidth: index === selectedClip ? 4 : 0,
+    borderWidth: index === selectedClip ? 5 : 0,
     opacity: isDragging || index === selectedClip ? 1 : 0.5,
     width: `${width * 100}%`,
-    borderRadius: 9,
     ...draggableStyle,
-    margin: 2,
+    marginRight: '2px',
+    marginLeft: '2px',
   });
 
   const onDragEnd = (result: DropResult) => {
@@ -79,7 +79,7 @@ const Timeline = (props: Props): JSX.Element => {
                             index,
                             provided.draggableProps.style
                           )}
-                          onMouseDown={() => {
+                          onMouseUp={() => {
                             setSelectedClip(index);
                           }}
                         >
@@ -87,7 +87,7 @@ const Timeline = (props: Props): JSX.Element => {
                             imageurl={item.thumbnailUrl}
                             labeled={item.label}
                             labeledGlobal={item.labelGlobal}
-                            trimmed={item.end - item.start !== item.length}
+                            trimmed={item.end - item.start !== item.duration}
                           />
                         </div>
                       )}
@@ -112,11 +112,12 @@ const PaperWrapper = styled(Paper)`
     background-color: ${(props) => props.theme.colors.white1};
     width: 100%;
     display: flex;
-    padding: 5px;
-    height: 134px;
+    padding: 15px;
+    height: 150px;
     position: relative;
     align-items: center;
     justify-content: center;
+    border-radius: 8px;
   }
 `;
 
@@ -131,7 +132,7 @@ const FabWrapper = styled(Fab)`
     position: absolute;
     margin-right: -28px;
     right: 0;
-    top: 44px;
+    top: 67px;
     z-index: 2;
     background-color: ${(props) => props.theme.colors.primary};
     color: white;

@@ -22,8 +22,8 @@ services:
             - /app/node_modules
             - ./server:/app
         environment:
-            - CLIENT_ID=g4puwtvoc9hfafm40ukk5hi1sepe90
-            - CLIENT_SECTRET=iid6vv1m7kqa71uak6ghoq67kb7uvt
+            - CLIENT_ID=
+            - CLIENT_SECTRET=
     db:
         image: 'mongo'
         ports:

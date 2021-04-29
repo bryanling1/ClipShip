@@ -55,7 +55,6 @@ const ProjectName = (props: Props) => {
       deleteProject(project.id);
     }
   };
-  console.log(project.dbClips, clips);
   const canSave = !areClipsSame(project.dbClips, clips);
 
   return (
@@ -64,7 +63,7 @@ const ProjectName = (props: Props) => {
         onSetProject={handleSetProject}
         onNewProject={handleNewProject}
         id={project.id}
-        canSave={canSave}
+        canSave={canSave && (Boolean(project.name) || false)}
       />
       <ProjectNameEdit
         content={project.name}

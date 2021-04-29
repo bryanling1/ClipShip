@@ -64,6 +64,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
     } else {
       setIsEditMode(false);
     }
+    setDeleteProjectButton(false);
   };
 
   const handleKeyDown = (e) => {
@@ -119,6 +120,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
   const handleCloseModal = () => {
     setIsEditMode(false);
     setDeleteModal(false);
+    setDeleteProjectButton(false);
   };
 
   const onDeleteProject = () => {
@@ -147,7 +149,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
       {!isEditMode && (
         <TypographyWrapper
           onClick={handleEditModeOn}
-          variant={'h4'}
+          variant={'h5'}
           onMouseEnter={() => {
             setDeleteProjectButton(true);
           }}
@@ -168,9 +170,9 @@ const ProjectName = (props: stateProps): JSX.Element => {
         </TypographyWrapper>
       )}
       {isEditMode && (
-        <>
-          <form onSubmit={handleSubmit}>
-            <TextField
+        <FormWrapper>
+          <FormInnerWrapper onSubmit={handleSubmit}>
+            <TextFieldWrapper
               value={value}
               onChange={handleChange}
               variant="outlined"
@@ -184,7 +186,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
                 <CheckIcon />
               </IconButton>
             )}
-          </form>
+          </FormInnerWrapper>
           {!isLoading && (
             <IconButton onClick={handleCancel}>
               <CloseIcon />
@@ -192,7 +194,7 @@ const ProjectName = (props: stateProps): JSX.Element => {
           )}
 
           {isLoading && <Loader size={25} />}
-        </>
+        </FormWrapper>
       )}
     </MainWrapper>
   );
@@ -202,31 +204,46 @@ export default ProjectName;
 
 const MainWrapper = styled.div`
   display: flex;
-  alight-items: center;
+  align-items: center;
   width: 100%;
-  position: relative;
+`;
+
+const FormWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
+const FormInnerWrapper = styled.form`
+  display: flex;
+  align-items: center;
 `;
 
 const TypographyWrapper = styled(Typography)`
-   {
+  && {
     padding-left: 6px;
     padding-right: 6px;
     position: relative;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding-right: 100px;
   }
   &:hover {
-    border: 3px solid rgba(0, 0, 0, 0.54);
+    border: 2px solid ${(props) => props.theme.colors.primary};
     border-radius: 6px;
     cursor: pointer;
     padding-right: 100px;
-    padding-left: -2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: -2px;
   }
 `;
 
 const ButtonWrapper = styled(Button)`
   && {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 20px;
   }
 `;
 
@@ -242,8 +259,20 @@ const IconButtonWrapper = styled(IconButton)`
   && {
     position: absolute;
     right: 0;
-    top: -4px;
     z-index: 3;
     margin: 0;
+  }
+`;
+
+const TextFieldWrapper = styled((otherProps) => <TextField {...otherProps} />)`
+  && .MuiInputBase-root {
+    font-weight: bold;
+  }
+
+  && .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
+  }
+  && .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
   }
 `;

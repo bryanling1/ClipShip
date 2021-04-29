@@ -12,7 +12,7 @@ export interface Clip {
   url: string;
   start: number;
   end: number;
-  length: number;
+  duration: number;
   label: boolean;
   labelContent: string | null;
   labelPosition: LabelPosition | null;

@@ -11,6 +11,7 @@ interface OwnProps {
   height?: number;
   width?: number;
   margin?: number;
+  marginBottom?: string;
   onClick?: () => void;
   border?: number;
   cursor?: string;
@@ -32,6 +33,7 @@ const ClipCard = (props: OwnProps): JSX.Element => {
     trimmed,
     labeled,
     labeledGlobal,
+    marginBottom,
   } = props;
   return (
     <MainWrapper
@@ -43,6 +45,7 @@ const ClipCard = (props: OwnProps): JSX.Element => {
       border={border}
       cursor={cursor}
       opacity={opacity}
+      marginBottom={marginBottom}
     >
       <IconsWrapper>
         {labeled && (
@@ -87,6 +90,7 @@ interface MainWrapperProps {
   border: number | undefined;
   cursor: string | undefined;
   opacity: number | undefined;
+  marginBottom: string | undefined;
 }
 const MainWrapper = styled.div<MainWrapperProps>`
   box-sizing: border-box;
@@ -97,12 +101,13 @@ const MainWrapper = styled.div<MainWrapperProps>`
   background-repeat: no-repeat;
   background-color: black;
   background-position: center center;
-  border-radius: 5px;
-  margin: ${(props) => (props.margin ? `${props.margin}px` : 0)};
+  margin-left: ${(props) => (props.margin ? `${props.margin}px` : 0)};
+  margin-right: ${(props) => (props.margin ? `${props.margin}px` : 0)};
   border: ${(props) => (props.border ? `${props.border}px` : 0)} solid
     ${(props) => props.theme.colors.primary};
   cursor: ${(props) => (props.cursor ? props.cursor : 'initial')};
   opacity: ${(props) => (props.opacity ? props.opacity : 'initial')};
+  margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : 0)};
 `;
 
 const Rotate90 = styled.div`

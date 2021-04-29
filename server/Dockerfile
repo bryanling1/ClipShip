@@ -1,8 +1,11 @@
 FROM node:15
 
+ADD setup-ffmpeg.sh /root
+RUN /root/setup-ffmpeg.sh
+
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json .
 
 RUN npm install
 

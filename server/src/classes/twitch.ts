@@ -32,6 +32,9 @@ class Twitch {
     const date2 = new Date();
     date2.setDate(date1.getDate() - days);
 
+    if (!response_gameId.data.data[0]) {
+      return [];
+    }
     const params = {
       started_at: date2.toISOString(),
       ended_at: date1.toISOString(),
@@ -40,7 +43,6 @@ class Twitch {
     };
 
     const response = await axios.get('https://api.twitch.tv/helix/clips', { headers, params });
-
     if (response.data) {
       const out: Clip[] = [];
       for (const clip of response.data.data) {
@@ -48,7 +50,7 @@ class Twitch {
           url: clip.embed_url,
           start: 0,
           end: clip.duration,
-          length: clip.duation,
+          duration: clip.duration,
           label: false,
           labelContent: null,
           labelPosition: null,

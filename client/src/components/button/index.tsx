@@ -6,7 +6,7 @@ const ButtonWrapper = styled((otherProps) => <Button {...otherProps} />)`
   && {
     background-color: ${(props) => props.theme.colors.primary};
     color: white;
-    margin: auto;
+    margin: ${(props) => (props.margin !== undefined ? props.margin : 'auto')};
     display: flex;
     margin-left: ${(props) => (props.marginleft >= 0 ? `${props.marginleft}px` : 'auto')};
     height: ${(props) => (props.height ? `${props.height}px` : 'intial')};

@@ -34,8 +34,7 @@ const Player = (props: OwnProps): JSX.Element => {
   return (
     <MainWrapper>
       {title && <Typography variant="h5">{title}</Typography>}
-      {broadcaster && <Typography variant="subtitle1">{broadcaster}</Typography>}
-      <br />
+      {broadcaster && <Typography variant="subtitle2">by {broadcaster}</Typography>}
       {url && (
         <iframe
           src={`${url}&parent=localhost&autoplay=true`}

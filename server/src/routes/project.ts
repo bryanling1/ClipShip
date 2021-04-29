@@ -9,6 +9,12 @@ router.get('/projects', async (req, res) => {
   res.send(projects);
 });
 
+router.get('/project', async (req, res) => {
+  const { id } = req.query;
+  const project = await Project.findById(id).catch((err) => console.log(err));
+  res.send(project);
+});
+
 router.get('/project/clips', async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.query.id as string)) {
     return next(new Error('Bad id'));
@@ -22,19 +28,19 @@ router.post('/project', async (req, res, next) => {
   const { name } = req.body;
   const project = Project.build({ name: name as string });
   await project.save();
-  res.send(project.id);
+  res.send({ id: project.id, name: project.name });
 });
 
 router.patch('/project', async (req, res, next) => {
   const { id, clips, name } = req.body;
-  let project;
   if (name) {
-    project = await Project.updateProject(id, { name });
+    await Project.updateProject(id, { name });
   }
   if (clips) {
-    project = await Project.setClips(id, clips);
+    await Project.setClips(id, clips);
   }
-  res.send(project);
+  const new_project = await Project.getProject(id);
+  res.send(new_project);
 });
 
 router.delete('/project', async (req, res, next) => {
@@ -42,7 +48,7 @@ router.delete('/project', async (req, res, next) => {
     return next(new Error('Bad id'));
   }
   const { id } = req.query;
-  const project = await Project.deleteProject(id as string);
+  await Project.deleteProject(id as string);
   res.send(id);
 });
 

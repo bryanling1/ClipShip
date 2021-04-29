@@ -129,9 +129,11 @@ interface PositionWrapperProps {
 const PositionWrapper = styled.div<PositionWrapperProps>`
   width: 200px;
   height: 112.5px;
-  background-color: white;
+  background-color: ${(props) => props.theme.colors.white1};
   position: relative;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  border-radius: 3px;
+  left: 43px;
 `;
 
 const PositionTop = styled.div`
@@ -152,40 +154,40 @@ const PositionBottom = styled.div`
 
 const GlobeIconWrapper = styled((otherProps) => <GlobeIcon {...otherProps} />)`
   && {
-    fill: ${(props) => (props.accent ? 'rgb(136,84,208)' : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   }
 `;
 
 const CheckboxWrapper = styled((otherProps) => <Checkbox {...otherProps} />)`
   && > .MuiIconButton-label > .MuiSvgIcon-root {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   && > .MuiIconButton-label:hover > .MuiSvgIcon-root:hover {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   &&& .MuiCheckbox-colorSecondary {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   && > .MuiCheckbox-colorSecondary .Mui-checked {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   && > .MuiCheckbox-colorSecondary .Mui-checked:hover {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   &&& {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
-    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.54)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    color: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
   }
 
   &&&&:hover {

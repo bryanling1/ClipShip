@@ -30,7 +30,7 @@ const ClipSelectForm = (props: OwnProps): JSX.Element => {
   };
   return (
     <FormWrapper onSubmit={handleSubmit}>
-      <TextField
+      <TextFieldWrapper
         placeholder="Game Title"
         value={game}
         onChange={handleGameChange}
@@ -66,7 +66,7 @@ const FormWrapper = styled.form`
   display: flex;
 `;
 
-const TextFieldLimitWrapper = styled(TextField)`
+const TextFieldLimitWrapper = styled((otherProps) => <TextField {...otherProps} />)`
   && {
     width: 70px;
     margin-right: 5px;
@@ -75,5 +75,20 @@ const TextFieldLimitWrapper = styled(TextField)`
 
   & div input {
     text-align: right;
+  }
+  && .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
+  }
+  && .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
+  }
+`;
+
+const TextFieldWrapper = styled((otherProps) => <TextField {...otherProps} />)`
+  && .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
+  }
+  && .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.primary};
   }
 `;

@@ -87,4 +87,5 @@ const MainWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.white2};
   padding: 10px;
   box-sizing: border-box;
+  border-radius: 6px;
 `;

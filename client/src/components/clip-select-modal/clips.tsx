@@ -4,7 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ButtonWrapper from '../button';
 import ClipCard from '../clip-card';
 import Loader from '../loader';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
@@ -21,7 +21,7 @@ const Clips = (props: OwnProps): JSX.Element => {
   const [nSelected, setNSelected] = useState(0);
 
   const handleSelect = (index: number) => {
-    if (index !== selectedIndex && selected[index]) {
+    if (index !== selectedIndex) {
       return;
     }
     const temp = [...selected];
@@ -37,6 +37,13 @@ const Clips = (props: OwnProps): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    if (clips.length === 0) {
+      setSelected([]);
+      setNSelected(0);
+    }
+  }, [JSON.stringify(clips)]);
+
   return (
     <MainWrapper>
       <ClipsWrapper>
@@ -45,18 +52,19 @@ const Clips = (props: OwnProps): JSX.Element => {
           {clips.map((clip, i) => (
             <ClipCard
               imageurl={clip.thumbnailUrl}
-              height={100}
-              width={32}
-              margin={2}
+              height={120}
+              width={32.1}
+              margin={3}
               onClick={() => {
                 handleSelect(i);
                 onClick(i);
               }}
-              key={clip.id}
+              key={i}
               border={selected[i]}
               cursor="pointer"
-              opacity={selectedIndex === i ? 1 : 0.4}
-              trimmed={clip.end - clip.start !== clip.length}
+              opacity={1}
+              trimmed={clip.end - clip.start !== clip.duration}
+              marginBottom="6px"
             />
           ))}
         </FlexWrapper>
@@ -100,7 +108,6 @@ const FlexWrapper = styled.div`
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    padding: 2px;
   }
 `;
 
@@ -118,6 +125,7 @@ const ClipsWrapper = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
+    margin-bottom: 20px;
   }
 `;
 

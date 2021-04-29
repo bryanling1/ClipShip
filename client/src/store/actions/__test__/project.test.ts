@@ -31,7 +31,7 @@ const clip: Clip = {
     'https://clips.twitch.tv/embed?clip=AmazonianEncouragingLyrebirdAllenHuhu&tt_medium=clips_api&tt_content=embed',
   start: 0,
   end: 32.000333,
-  length: 32.000333,
+  duration: 32.000333,
   label: false,
   labelContent: null,
   labelPosition: null,
@@ -73,8 +73,8 @@ describe('Project action creators', () => {
   });
   it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, SET_PROJECT_SELECTED_CLIP, SET_DB_CLIPS when fetching project has been done and there are clips', () => {
     mock
-      .onGet('http://localhost:3000/projects?id=project_id_1')
-      .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: [clip] }]);
+      .onGet('http://localhost:5000/project?id=project_id_1')
+      .reply(200, { id: 'project_id_1', name: 'my_project_name', clips: [clip] });
 
     const expectedActions = [
       {
@@ -97,8 +97,8 @@ describe('Project action creators', () => {
 
   it('creates SET_PROJECT, SET_CLIPS, SET_PROJECT_ERROR, and SET_PROJECT_SELECTED_CLIP when fetching project has been done and there are no clips', () => {
     mock
-      .onGet('http://localhost:3000/projects?id=project_id_1')
-      .reply(200, [{ id: 'project_id_1', name: 'my_project_name', clips: null }]);
+      .onGet('http://localhost:5000/project?id=project_id_1')
+      .reply(200, { id: 'project_id_1', name: 'my_project_name', clips: null });
 
     const expectedActions = [
       {
@@ -154,9 +154,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR and EDIT_NAME when updating project name has finished', () => {
-    mock
-      .onPatch('http://localhost:3000/projects/project_id_1')
-      .reply(200, { name: 'name', id: 'some_id' });
+    mock.onPatch('http://localhost:5000/project').reply(200, { name: 'name', id: 'some_id' });
 
     const expectedActions = [
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
@@ -190,7 +188,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR and SAVE_DB_CLIPS when updating project clips has succeeded', () => {
-    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200, { clips: [clip] });
+    mock.onPatch('http://localhost:5000/project').reply(200, { clips: [clip] });
 
     const expectedActions = [
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
@@ -206,7 +204,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR and SAVE_DB_CLIPS when updating project clips has succeeded and no clips are returned', () => {
-    mock.onPatch('http://localhost:3000/projects/project_id_1').reply(200, [{ clips: [] }]);
+    mock.onPatch('http://localhost:5000/project').reply(200, { clips: [] });
 
     const expectedActions = [
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },
@@ -235,7 +233,7 @@ describe('Project action creators', () => {
   });
 
   it('creates SET_PROJECT_ERROR, SET_CLIPS, SET_PROJECT when updating project clips has succeeded', () => {
-    mock.onPost('http://localhost:3000/projects').reply(200, {
+    mock.onPost('http://localhost:5000/project').reply(200, {
       name: 'project_id_1',
       id: '123',
     });
@@ -245,6 +243,7 @@ describe('Project action creators', () => {
       { type: ProjectActions.SET_PROJECT, payload: { name: 'project_id_1', id: '123' } },
       { type: ProjectActions.SET_PROJECT_SELECTED_CLIP, index: null },
       { type: ClipActions.SET_CLIPS, clips: [] },
+      { type: ClipActions.SET_DB_CLIPS, clips: [] },
     ];
 
     const store = mockStore({ clips: [], project: { name: null, error: null, id: null } });
@@ -276,8 +275,8 @@ describe('Project action creators', () => {
     expect(setDBClips([clip])).toEqual(expectedAction);
   });
 
-  it('creates SET_PROJECT_ERROR and SET_PROJECT project has deleted', () => {
-    mock.onDelete('http://localhost:3000/projects/project_id_1').reply(200);
+  it('creates SET_PROJECT_ERROR and SET_PROJECT project has been deleted', () => {
+    mock.onDelete('http://localhost:5000/project?id=project_id_1').reply(200);
 
     const expectedActions = [
       { type: ProjectActions.SET_PROJECT_ERROR, val: false },

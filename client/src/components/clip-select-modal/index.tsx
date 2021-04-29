@@ -38,12 +38,15 @@ const ClipSelectModal = (props: Props): JSX.Element => {
   };
   const handleSearch = async (game: string, limit: number) => {
     setLoading(true);
-    console.log(game, limit);
-    const result = await axios.get<Clip[]>('http://localhost:3000/search');
-    if (result) {
+    setSelectedClip(0);
+    setClips([]);
+    const query = `http://localhost:5000/getClips?game=${game}&limit=${limit}`;
+    const result = await axios.get<Clip[]>(query);
+    if (result && result.data.length) {
       setClips(result.data);
-      setLoading(false);
+      setSelectedClip(0);
     }
+    setLoading(false);
   };
   const handleChangeStartEnd = (start: number, end: number) => {
     if (selectedClip !== undefined) {
@@ -66,17 +69,19 @@ const ClipSelectModal = (props: Props): JSX.Element => {
   const clipUrl = clip && clip.url;
   const clipStart = clip && clip.start;
   const clipEnd = clip && clip.end;
-  const clipLength = clip && clip.length;
+  const clipDuration = clip && clip.duration;
   const clipTitle = clip && clip.title;
   const clipBroadcaster = clip && clip.broadcaster;
 
   return (
     <DialogWrapper open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle>Find and Add Clips</DialogTitle>
+      <DialogTitleWrapper>Find and Add Clips</DialogTitleWrapper>
       <DialogContent>
+        <TopHalf>
+          <Form onSearch={handleSearch} loading={loading} />
+        </TopHalf>
         <FlexWrapper>
           <FirstHalf>
-            <Form onSearch={handleSearch} loading={loading} />
             <Clips
               clips={clips}
               onAddClips={handleAddClips}
@@ -91,9 +96,10 @@ const ClipSelectModal = (props: Props): JSX.Element => {
               onStartEndChange={handleChangeStartEnd}
               start={clipStart}
               end={clipEnd}
-              length={clipLength}
+              length={clipDuration}
               title={clipTitle}
               broadcaster={clipBroadcaster}
+              height={410}
             />
           </SecondHalf>
         </FlexWrapper>
@@ -120,11 +126,22 @@ const FlexWrapper = styled.div`
   width: 100%;
   display: flex;
 `;
-
+const TopHalf = styled.div`
+  flex: 1;
+  margin-bottom: 20px;
+`;
 const FirstHalf = styled.div`
-  flex: 0.6;
+  flex: 0.55;
+  padding-right: 20px;
 `;
 
 const SecondHalf = styled.div`
-  flex: 0.4;
+  flex: 0.45;
+`;
+
+const DialogTitleWrapper = styled(DialogTitle)`
+  && .MuiTypography-root {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
 `;

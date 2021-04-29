@@ -8,8 +8,12 @@ app.listen(5000, async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
     await twitch.getToken();
+    // const result = await twitch.getClipsByGame('Pokémon Sword/Shield', 3, 1)
+    // console.log(result);
+    // "".split
   } catch (err) {
     console.log(err);
   }

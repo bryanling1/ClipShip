@@ -14,7 +14,7 @@ const clip = {
     'https://clips.twitch.tv/embed?clip=AmazonianEncouragingLyrebirdAllenHuhu&tt_medium=clips_api&tt_content=embed',
   start: 0,
   end: 32.000333,
-  length: 32.000333,
+  duration: 32.000333,
   label: false,
   labelContent: null,
   labelPosition: null,

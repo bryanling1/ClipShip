@@ -35,12 +35,15 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
     if (open) {
       setLoading(true);
       setProjectList([]);
-      axios.get<Project[]>('http://localhost:3000/projects').then((result) => {
-        setProjectList(
-          result.data.map((project) => ({ name: project.name, id: project.id })).reverse()
-        );
-        setLoading(false);
-      });
+      axios
+        .get<Project[]>('http://localhost:5000/projects')
+        .then((result) => {
+          setProjectList(
+            result.data.map((project) => ({ name: project.name, id: project.id })).reverse()
+          );
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
     }
   }, [open]);
 
@@ -142,4 +145,7 @@ interface MenuItemWrapperProps {
 }
 const MenuItemWrapper = styled.div<MenuItemWrapperProps>`
   color: ${(props) => (props.selected ? props.theme.colors.primary : 'initial')};
+  && .MuiMenuItem-root {
+    font-weight: ${(props) => (props.selected ? 'bold' : 'initial')};
+  }
 `;

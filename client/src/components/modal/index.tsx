@@ -1,9 +1,9 @@
 import { Severity } from './types';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
+import CustomButton from '../button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import LoadingAnimation from '../loader';
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
 export interface ModalProps {
@@ -84,20 +85,20 @@ function modal(props: ModalProps): JSX.Element {
         </Collapse>
         {children}
       </DialogContent>
-      <DialogActions>
+      <DialogActionsWrapper>
         {isLoading && <LoadingAnimation />}
 
         {onClickCancel && (
-          <Button onClick={handleCancel} color="primary">
+          <TypographyWrapper onClick={handleCancel} color="primary" margin={0}>
             Cancel
-          </Button>
+          </TypographyWrapper>
         )}
         {onClickOk && (
-          <Button onClick={handleOk} color="primary" variant="contained">
+          <CustomButton onClick={handleOk} color="primary" variant="contained" margin={0}>
             {confirmText}
-          </Button>
+          </CustomButton>
         )}
-      </DialogActions>
+      </DialogActionsWrapper>
     </DialogWrapper>
   );
 }
@@ -120,5 +121,17 @@ const DialogWrapper = styled((otherProps) => <Dialog {...otherProps} />)`
   }
   & > .MuiDialog-container > .MuiPaper-root {
     min-width: ${(props) => props.width};
+  }
+`;
+
+const DialogActionsWrapper = styled(DialogActions)`
+  display: flex;
+  align-items: center;
+`;
+
+const TypographyWrapper = styled((otherProps) => <Typography {...otherProps} />)`
+  && {
+    color: ${(props) => props.theme.colors.primary};
+    cursor: pointer;
   }
 `;
