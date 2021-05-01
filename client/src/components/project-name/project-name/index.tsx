@@ -230,7 +230,7 @@ const TypographyWrapper = styled(Typography)`
     padding-right: 100px;
   }
   &:hover {
-    border: 2px solid ${(props) => props.theme.colors.primary};
+    border: 2px solid ${(props) => props.theme.colors.white2};
     border-radius: 6px;
     cursor: pointer;
     padding-right: 100px;

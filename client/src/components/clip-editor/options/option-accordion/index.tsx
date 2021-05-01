@@ -49,7 +49,7 @@ const OptionAccordion = (props: OwnProps): JSX.Element => {
   };
 
   return (
-    <Accordion expanded={expanded} onChange={handleExpand} square>
+    <AccordionWrapper expanded={expanded} onChange={handleExpand} square>
       <AccordionSummaryWrapper
         expandIcon={<ExpandMoreIcon />}
         aria-label="Expand"
@@ -92,12 +92,21 @@ const OptionAccordion = (props: OwnProps): JSX.Element => {
         )}
       </AccordionSummaryWrapper>
       <AccordionDetails>{children}</AccordionDetails>
-    </Accordion>
+    </AccordionWrapper>
   );
 };
 
 export default OptionAccordion;
 
+const AccordionWrapper = styled(Accordion)`
+  &&& .MuiAccordion-root.MuiAccordion-expanded {
+    margin: 0 0;
+  }
+
+  &&& .MuiAccordion-expanded {
+    margin: 0 0;
+  }
+`;
 const AccordionSummaryWrapper = styled(AccordionSummary)`
   && .MuiAccordionSummary-content {
     align-items: center;

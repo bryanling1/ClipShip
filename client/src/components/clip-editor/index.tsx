@@ -1,12 +1,9 @@
 import * as actions from '../../store/actions';
 import { ConnectedProps, connect } from 'react-redux';
 import { StoreState } from '../../store/reducers/types';
-import DeleteClipModal from '../modal/modals/delete-clip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import Options from './options';
 import Player from '../player';
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
@@ -21,21 +18,11 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 const ClipEditor = (props: Props): JSX.Element => {
-  const { project, clips, editClipStartEnd, deleteClip } = props;
+  const { project, clips, editClipStartEnd } = props;
   const { selectedClip } = project;
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const handleChangeStartEnd = (start: number, end: number) => {
     if (selectedClip !== null) {
       editClipStartEnd({ index: selectedClip, start, end });
-    }
-  };
-  const handleCloseDeleteClipModal = () => {
-    setIsDeleteModal(false);
-  };
-
-  const handleDeleteClip = () => {
-    if (selectedClip !== null) {
-      deleteClip(selectedClip);
     }
   };
   const clip = selectedClip !== null && clips[selectedClip];
@@ -52,22 +39,9 @@ const ClipEditor = (props: Props): JSX.Element => {
           Click <b>+ Below</b> to Add Clips to your Project
         </TypographyNoProject>
       )}
-
-      <DeleteClipModal
-        open={isDeleteModal}
-        handleClose={handleCloseDeleteClipModal}
-        handleDelete={handleDeleteClip}
-      />
       {project.name && clips.length > 0 && clip && (
         <>
           <Left>
-            <IconButtonWrapper
-              onClick={() => {
-                setIsDeleteModal(true);
-              }}
-            >
-              <DeleteIcon />
-            </IconButtonWrapper>
             <Player
               onStartEndChange={handleChangeStartEnd}
               url={clip.url}
@@ -114,16 +88,6 @@ const Right = styled.div`
   flex: 0.4;
   height: 100%;
   box-sizing: border-box;
-`;
-
-const IconButtonWrapper = styled(IconButton)`
-  && {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: -10px;
-    margin-right: 10px;
-  }
 `;
 
 const TypographyNoProject = styled(Typography)`
