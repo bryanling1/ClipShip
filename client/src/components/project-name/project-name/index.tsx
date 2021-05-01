@@ -1,4 +1,4 @@
-import Button from '../../button';
+import Button from '../../form-elements/button';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';

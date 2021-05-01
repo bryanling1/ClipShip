@@ -3,7 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
-import CustomButton from '../button';
+import CustomButton from '../form-elements/button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';

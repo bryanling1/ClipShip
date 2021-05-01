@@ -76,7 +76,7 @@ const ClipEditor = (props: Props): JSX.Element => {
               length={clip.duration}
               title={clip.title}
               broadcaster={clip.broadcaster}
-              height={500}
+              height={570}
             />
           </Left>
           <Right>

@@ -19,6 +19,8 @@ interface OwnProps {
   trimmed?: boolean;
   labeled?: boolean;
   labeledGlobal?: boolean;
+  backgroundImageOpacity?: number;
+  selected?: boolean;
 }
 const ClipCard = (props: OwnProps): JSX.Element => {
   const {
@@ -34,10 +36,11 @@ const ClipCard = (props: OwnProps): JSX.Element => {
     labeled,
     labeledGlobal,
     marginBottom,
+    backgroundImageOpacity,
+    selected,
   } = props;
   return (
     <MainWrapper
-      imageurl={imageurl}
       height={height}
       width={width}
       margin={margin}
@@ -76,6 +79,13 @@ const ClipCard = (props: OwnProps): JSX.Element => {
           </SquareAvatar>
         )}
       </IconsWrapper>
+      <SelectedWrapper selected={selected ? 1 : 0} />
+      <BackgroundImage
+        imageUrl={imageurl}
+        opacity={backgroundImageOpacity || 1}
+        height={height}
+        width={width}
+      />
     </MainWrapper>
   );
 };
@@ -83,7 +93,6 @@ const ClipCard = (props: OwnProps): JSX.Element => {
 export default ClipCard;
 
 interface MainWrapperProps {
-  imageurl: string;
   height: number | undefined;
   width: number | undefined;
   margin: number | undefined;
@@ -94,7 +103,6 @@ interface MainWrapperProps {
 }
 const MainWrapper = styled.div<MainWrapperProps>`
   box-sizing: border-box;
-  background-image: url(${(props) => props.imageurl});
   height: ${(props) => (props.height ? `${props.height}px` : '100%')};
   width: ${(props) => (props.width ? `${props.width}%` : '100%')};
   background-size: auto 100%;
@@ -108,6 +116,42 @@ const MainWrapper = styled.div<MainWrapperProps>`
   cursor: ${(props) => (props.cursor ? props.cursor : 'initial')};
   opacity: ${(props) => (props.opacity ? props.opacity : 'initial')};
   margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : 0)};
+  position: relative;
+`;
+
+interface SelectedWrapperProps {
+  selected: number;
+}
+const SelectedWrapper = styled.div<SelectedWrapperProps>`
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => props.theme.colors.primaryDark};
+  opacity: ${(props) => (props.selected ? 0.76 : 0)};
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+`;
+
+interface BackgroundImageProps {
+  imageUrl: string;
+  opacity: number;
+  height: number | undefined;
+  width: number | undefined;
+}
+
+const BackgroundImage = styled.div<BackgroundImageProps>`
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  background-image: url(${(props) => props.imageUrl});
+  opacity: ${(props) => props.opacity};
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const Rotate90 = styled.div`
@@ -135,6 +179,10 @@ const SquareAvatar = styled(Avatar)`
 const IconsWrapper = styled.div`
   heigth: 100%;
   width: 30px;
+  z-index: 4;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const LabelIconWrapper = styled(LabelIcon)`

@@ -14,7 +14,7 @@ interface OwnProps {
   onStartEndChange: (start: number, end: number) => void;
 }
 const Player = (props: OwnProps): JSX.Element => {
-  const { url, start, end, length, onStartEndChange, title, broadcaster, height } = props;
+  const { url, start, end, length, onStartEndChange, height } = props;
   const [value, setValue] = useState<number[]>([start || 0, end || 0]);
   const handleChange = (event: any, newValue: number | number[]) => {
     const newVal = newValue as number[];
@@ -33,8 +33,6 @@ const Player = (props: OwnProps): JSX.Element => {
 
   return (
     <MainWrapper>
-      {title && <Typography variant="h5">{title}</Typography>}
-      {broadcaster && <Typography variant="subtitle2">by {broadcaster}</Typography>}
       {url && (
         <iframe
           src={`${url}&parent=localhost&autoplay=true`}

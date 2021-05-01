@@ -1,4 +1,4 @@
-import ButtonWrapper from '../button';
+import ButtonWrapper from '../form-elements/button';
 import React, { useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import TextField from '@material-ui/core/TextField';

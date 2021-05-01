@@ -8,15 +8,16 @@ import path from 'path';
 const router = express.Router();
 
 router.post('/download', async (req, res) => {
-  const { id } = req.body;
-  if (id) {
-    const project = await Project.getProject(id);
-    const dir = path.join(__dirname, `../temps/test/`);
+  const { clips, id } = req.body;
+  if (clips.length > 0) {
+    const project = await Project.getProject(id as string);
+    const dir = path.join(__dirname, `../temps/clips-${id}/`);
     if (fs.existsSync(dir)) {
       res.sendStatus(400);
       return;
     }
     if (project.clips) {
+      fs.mkdirSync(dir);
       const twitchClips = new TwichClips(project.clips, dir, 'src/styles/fonts/oswald.ttf');
       const outPath = await twitchClips.clipsToVideo();
       res.download(outPath, function () {
@@ -26,6 +27,7 @@ router.post('/download', async (req, res) => {
       res.sendStatus(400);
     }
   }
+  res.sendStatus(200);
 });
 
 export { router as downloadsRouter };

@@ -1,8 +1,7 @@
 import { Clip } from '../models/project';
-import { http } from 'follow-redirects';
-import Ffmpeg, { TextPosition, TimelineText } from '../classes/ffmpeg';
+import { https } from 'follow-redirects';
+import Ffmpeg from '../classes/ffmpeg';
 import fs from 'fs';
-import path from 'path';
 
 class TwitchClips {
   private downloadLinks: string[];
@@ -26,7 +25,7 @@ class TwitchClips {
       const downloadPath = this.dir + `${count}.mp4`;
       const file = fs.createWriteStream(downloadPath);
       const promise: Promise<void> = new Promise((resolve, reject) => {
-        http.get(downloadUrl, (response) => {
+        https.get(downloadUrl, (response) => {
           promises.push();
           const stream = response.pipe(file);
           stream.on('finish', function () {
@@ -41,36 +40,33 @@ class TwitchClips {
     return Promise.all(promises);
   }
 
-  private getTimelineTextsFromClips(): TimelineText[] {
-    let total = 0;
-    const out: TimelineText[] = [];
-    for (const clip of this.clips) {
-      const len = clip.end - clip.start;
-      out.push({ text: clip.broadcaster, start: total, end: total + len });
-      total += len;
-    }
-    return out;
-  }
-
   public setFontFile(file: string) {
     this.fontFile = file;
   }
 
   public async clipsToVideo(): Promise<any> {
     await this.download();
+    await this.ffmpeg.resizeDir(this.dir, 1920, 1080);
     this.ffmpeg.setAttrs({ fontFile: this.fontFile });
-    await this.ffmpeg.trimDir(
-      this.dir,
-      this.clips.map((clip) => ({ start: clip.start, end: clip.end }))
-    );
+    const trims = this.clips.map((clip) => ({
+      start: clip.duration !== clip.end - clip.start ? clip.start : null,
+      end: clip.duration !== clip.end - clip.start ? clip.end : null,
+    }));
+    await this.ffmpeg.trimDir(this.dir, trims);
     await this.ffmpeg.addTextDir(
       this.dir,
       this.clips.map((clip, i) => ({
-        content: clip.broadcaster + i,
-        position: clip.labelPosition || (0 as TextPosition),
+        content: clip.label || clip.labelGlobal ? clip.broadcaster : null,
+        position: clip.labelGlobal
+          ? clip.labelGlobalPosition
+            ? clip.labelGlobalPosition
+            : 0
+          : clip.labelPosition
+          ? clip.labelPosition
+          : 0,
       }))
     );
-    return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4', true);
+    return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4');
   }
 }
 

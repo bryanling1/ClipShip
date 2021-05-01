@@ -48,82 +48,144 @@ class Ffmpeg {
     this.fontPadding = 20;
   }
 
-  public async concatDir(
-    dir: string,
-    out_dir: string,
-    filename: string,
-    deleteChildren?: boolean
-  ): Promise<string> {
-    //get files in dir;
-    let files = fs.readdirSync(dir);
-    files = files.map((file) => path.resolve(`${dir}/${file}`));
-    const out = files.map((file) => `file '${file}'\n`).join('');
-    const listPath = path.join(dir, 'files.txt');
-    const outPath = path.join(out_dir, filename);
-    fs.writeFileSync(listPath, out);
-    await execShpromise(`ffmpeg -f concat -safe 0 -i ${listPath} -y -c copy ${outPath}`);
-    if (deleteChildren === true) {
-      const promises: Promise<any>[] = [];
-      for (const file of files) {
-        promises.push(execShpromise(`rm -f ${file}`));
-      }
-      promises.push(execShpromise(`rm -f ${listPath}`));
-      await Promise.all(promises);
-      return outPath;
-    } else {
-      await execShpromise(`rm -f ${listPath}`);
-      return outPath;
-    }
-  }
+  // public async concatDir(
+  //   dir: string,
+  //   out_dir: string,
+  //   filename: string,
+  //   deleteChildren?: boolean
+  // ): Promise<string> {
+  //   //get files in dir;
+  //   let files = fs.readdirSync(dir);
+  //   files = files.map((file) => path.resolve(`${dir}/${file}`));
+  //   const out = files.map((file) => `file '${file}'\n`).join('');
+  //   const listPath = path.join(dir, 'files.txt');
+  //   const outPath = path.join(out_dir, filename);
+  //   fs.writeFileSync(listPath, out);
+  //   await execShpromise(`ffmpeg -f concat -safe 0 -i ${listPath} -fflags +genpts ${outPath}`);
+  //   if (deleteChildren === true) {
+  //     const promises: Promise<any>[] = [];
+  //     for (const file of files) {
+  //       promises.push(execShpromise(`rm -f ${file}`));
+  //     }
+  //     promises.push(execShpromise(`rm -f ${listPath}`));
+  //     await Promise.all(promises);
+  //     return outPath;
+  //   } else {
+  //     await execShpromise(`rm -f ${listPath}`);
+  //     return outPath;
+  //   }
+  // }
 
-  public async trimDir(dir: string, trims: { start: number; end: number }[]): Promise<any> {
+  public async resizeDir(dir: string, width: number, height: number) {
     //get files in dir;
-    const TEMP_FILE_STRING = '123467365253124134';
+    const TEMP_FILE_STRING = '_123467365253124134';
     const tempFiles: string[] = [];
     let files = fs.readdirSync(dir);
     files = files.map((file) => path.resolve(`${dir}/${file}`));
-    const promises: Promise<any>[] = [];
+    const promises = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const trim = trims[i];
       const temp_file_name =
         path.basename(file).split('.').slice(0, -1).join('.') +
-        '_' +
         TEMP_FILE_STRING +
         path.extname(file);
       const temp_file = path.join(path.dirname(file), temp_file_name);
       tempFiles.push(temp_file);
-      console.log(trim.start, trim.end);
-      promises.push(
-        execShpromise(
-          `ffmpeg -ss ${trim.start} -to ${trim.end} -i ${file}  -vcodec libx264 ${temp_file}`
-        )
-      );
+      const COMMAND = `ffmpeg -i ${file} -vf scale=${width}:${height} -vcodec libx264 -crf 25 ${temp_file}`;
+      promises.push(async () => {
+        await execShpromise(COMMAND);
+      });
     }
-    await Promise.all(promises);
+    await promises.reduce((p, fn) => p.then(fn), Promise.resolve());
     //delete the original files
     const promises_delete: Promise<any>[] = [];
-    for (const file of files) {
+    for (const file of tempFiles.map((file) => file.replace(TEMP_FILE_STRING, ''))) {
       promises.push(execShpromise(`rm -f ${file}`));
     }
     await Promise.all(promises_delete);
     //rename all the temp files
     const promises_rename: Promise<any>[] = [];
     for (let i = 0; i < tempFiles.length; i++) {
-      promises_rename.push(execShpromise(`mv ${tempFiles[i]} ${files[i]}`));
+      promises_rename.push(
+        execShpromise(`mv ${tempFiles[i]} ${tempFiles[i].replace(TEMP_FILE_STRING, '')}`)
+      );
+    }
+    return Promise.all(promises_rename);
+  }
+  public async concatDir(dir: string, out_dir: string, filename: string): Promise<string> {
+    //get files in dir;
+    let files = fs.readdirSync(dir);
+    files = files.map((file) => path.resolve(`${dir}/${file}`));
+    const files_str = files.map((file) => `-i ${file}`).join(' ');
+    const filter_str_1 = files
+      .map((file, index) => `[${index}:v]scale=1920:1080:force_original_aspect_ratio=1[v${index}];`)
+      .join('');
+    const filter_str_2 = files.map((file, index) => `[v${index}][${index}:a]`).join('');
+    // const out = files.map((file) => `file '${file}'\n`).join('');
+    // const listPath = path.join(dir, 'files.txt');
+    const outPath = path.join(out_dir, filename);
+    // fs.writeFileSync(listPath, out);
+    await execShpromise(
+      `ffmpeg ${files_str} -filter_complex '${filter_str_1}${filter_str_2}concat=n=${files.length}:v=1:a=1[v][a]' -map '[v]' -map '[a]' ${outPath}`
+    );
+    return outPath;
+  }
+
+  public async trimDir(
+    dir: string,
+    trims: { start: number | null; end: number | null }[]
+  ): Promise<any> {
+    //get files in dir;
+    const TEMP_FILE_STRING = '_123467365253124134';
+    const tempFiles: string[] = [];
+    let files = fs.readdirSync(dir);
+    files = files.map((file) => path.resolve(`${dir}/${file}`));
+    const promises = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const trim = trims[i];
+      if (trim.start !== null && trim.end !== null) {
+        const temp_file_name =
+          path.basename(file).split('.').slice(0, -1).join('.') +
+          TEMP_FILE_STRING +
+          path.extname(file);
+        const temp_file = path.join(path.dirname(file), temp_file_name);
+        tempFiles.push(temp_file);
+        const COMMAND = `ffmpeg -ss ${trim.start} -t ${
+          trim.end - trim.start
+        } -i ${file} -c copy ${temp_file}`;
+        console.log(COMMAND);
+        promises.push(async () => {
+          await execShpromise(COMMAND);
+        });
+      }
+    }
+    await promises.reduce((p, fn) => p.then(fn), Promise.resolve());
+    //delete the original files
+    const promises_delete: Promise<any>[] = [];
+    for (const file of tempFiles.map((file) => file.replace(TEMP_FILE_STRING, ''))) {
+      promises.push(execShpromise(`rm -f ${file}`));
+    }
+    await Promise.all(promises_delete);
+    //rename all the temp files
+    const promises_rename: Promise<any>[] = [];
+    for (let i = 0; i < tempFiles.length; i++) {
+      promises_rename.push(
+        execShpromise(`mv ${tempFiles[i]} ${tempFiles[i].replace(TEMP_FILE_STRING, '')}`)
+      );
     }
     return Promise.all(promises_rename);
   }
 
   public async addTextDir(
     dir: string,
-    text: { content: string; position: TextPosition }[]
+    text: { content: string | null; position: TextPosition }[]
   ): Promise<any> {
-    const TEMP_FILE_STRING = '123467365253124134';
+    const TEMP_FILE_STRING = '_123467365253124134';
     const tempFiles: string[] = [];
     let files = fs.readdirSync(dir);
     files = files.map((file) => path.resolve(`${dir}/${file}`));
-    const promises: Promise<any>[] = [];
+    const promises = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const content = text[i].content;
@@ -132,7 +194,6 @@ class Ffmpeg {
       }
       const temp_file_name =
         path.basename(file).split('.').slice(0, -1).join('.') +
-        '_' +
         TEMP_FILE_STRING +
         path.extname(file);
       const temp_file_dest = path.join(dir, temp_file_name);
@@ -153,19 +214,23 @@ class Ffmpeg {
         'copy',
         temp_file_dest,
       ];
-      promises.push(execa('ffmpeg', args).catch((err) => console.log(err)));
+      promises.push(async () => {
+        await execa('ffmpeg', args).catch((err) => console.log(err));
+      });
     }
-    await Promise.all(promises);
+    await promises.reduce((p, fn) => p.then(fn), Promise.resolve());
     //delete the original files
     const promises_delete: Promise<any>[] = [];
-    for (const file of files) {
+    for (const file of tempFiles.map((file) => file.replace(TEMP_FILE_STRING, ''))) {
       promises.push(execShpromise(`rm -f ${file}`));
     }
     await Promise.all(promises_delete);
     //rename all the temp files
     const promises_rename: Promise<any>[] = [];
     for (let i = 0; i < tempFiles.length; i++) {
-      promises_rename.push(execShpromise(`mv ${tempFiles[i]} ${files[i]}`));
+      promises_rename.push(
+        execShpromise(`mv ${tempFiles[i]}  ${tempFiles[i].replace(TEMP_FILE_STRING, '')}`)
+      );
     }
     return Promise.all(promises_rename);
   }
@@ -181,7 +246,7 @@ class Ffmpeg {
   }
 
   private getFontPosition(position: TextPosition): string {
-    switch (this.fontPosition) {
+    switch (position) {
       case TextPosition.LEFT_TOP:
         return `x=${this.fontPadding}:y=${this.fontPadding}`;
       case TextPosition.CENTER_TOP:

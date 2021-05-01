@@ -1,8 +1,7 @@
 import ClipEditor from './clip-editor';
 import ClipSelectModal from './clip-select-modal';
 import Container from '@material-ui/core/Container';
-import DownloadButton from '../components/button';
-import DownloadIcon from '@material-ui/icons/GetApp';
+import Download from './download';
 import ProjectName from './project-name';
 import React, { useState } from 'react';
 import Timeline from './timeline';
@@ -27,9 +26,7 @@ const App = (): JSX.Element => {
         <ClipEditor />
         <Timeline onAdd={openClipFinder} />
         <br /> <br />
-        <DownloadButton variant="contained" startIcon={<DownloadIcon />}>
-          Download
-        </DownloadButton>
+        <Download />
       </ContainerWrapper>
     </ThemeProvider>
   );

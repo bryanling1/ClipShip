@@ -1,7 +1,7 @@
 import { Clip } from '../../store/reducers/types';
 import { getTotalTime } from '../../utils/timeline';
 import AddIcon from '@material-ui/icons/Add';
-import ButtonWrapper from '../button';
+import ButtonWrapper from '../form-elements/button';
 import ClipCard from '../clip-card';
 import Loader from '../loader';
 import React, { useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const Clips = (props: OwnProps): JSX.Element => {
       return;
     }
     const temp = [...selected];
-    temp[index] = selected[index] ? 0 : 5;
+    temp[index] = selected[index] ? 0 : 7;
     selected[index] ? setNSelected(nSelected - 1) : setNSelected(nSelected + 1);
     setSelected(temp);
   };
@@ -52,19 +52,20 @@ const Clips = (props: OwnProps): JSX.Element => {
           {clips.map((clip, i) => (
             <ClipCard
               imageurl={clip.thumbnailUrl}
-              height={120}
-              width={32.1}
+              height={170}
+              width={49}
               margin={3}
               onClick={() => {
                 handleSelect(i);
                 onClick(i);
               }}
               key={i}
-              border={selected[i]}
+              border={i === selectedIndex ? 6 : 0}
               cursor="pointer"
               opacity={1}
               trimmed={clip.end - clip.start !== clip.duration}
               marginBottom="6px"
+              selected={selected[i]}
             />
           ))}
         </FlexWrapper>
@@ -79,12 +80,12 @@ const Clips = (props: OwnProps): JSX.Element => {
         )}
         {nSelected > 0 && (
           <CenterText>
-            <TypographyWrapper>{`${nSelected}/${clips.length} Selected`}</TypographyWrapper>
+            <TypographyWrapper>{`${nSelected} / ${clips.length} Selected`}</TypographyWrapper>
           </CenterText>
         )}
-        {!nSelected && (
+        {!nSelected && clips.length > 0 && (
           <CenterText>
-            <Typography>{`0 Selected`}</Typography>
+            <Typography>{`0 / ${clips.length} Selected`}</Typography>
           </CenterText>
         )}
         <ButtonWrapper
