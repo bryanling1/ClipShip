@@ -153,7 +153,7 @@ interface PositionWrapperProps {
 const PositionWrapper = styled.div<PositionWrapperProps>`
   width: 200px;
   height: 112.5px;
-  background-color: ${(props) => props.theme.colors.white1};
+  background-color: ${(props) => props.theme.colors.white3};
   position: relative;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   border-radius: 3px;

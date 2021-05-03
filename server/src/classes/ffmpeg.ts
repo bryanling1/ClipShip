@@ -48,34 +48,6 @@ class Ffmpeg {
     this.fontPadding = 20;
   }
 
-  // public async concatDir(
-  //   dir: string,
-  //   out_dir: string,
-  //   filename: string,
-  //   deleteChildren?: boolean
-  // ): Promise<string> {
-  //   //get files in dir;
-  //   let files = fs.readdirSync(dir);
-  //   files = files.map((file) => path.resolve(`${dir}/${file}`));
-  //   const out = files.map((file) => `file '${file}'\n`).join('');
-  //   const listPath = path.join(dir, 'files.txt');
-  //   const outPath = path.join(out_dir, filename);
-  //   fs.writeFileSync(listPath, out);
-  //   await execShpromise(`ffmpeg -f concat -safe 0 -i ${listPath} -fflags +genpts ${outPath}`);
-  //   if (deleteChildren === true) {
-  //     const promises: Promise<any>[] = [];
-  //     for (const file of files) {
-  //       promises.push(execShpromise(`rm -f ${file}`));
-  //     }
-  //     promises.push(execShpromise(`rm -f ${listPath}`));
-  //     await Promise.all(promises);
-  //     return outPath;
-  //   } else {
-  //     await execShpromise(`rm -f ${listPath}`);
-  //     return outPath;
-  //   }
-  // }
-
   public async resizeDir(dir: string, width: number, height: number) {
     //get files in dir;
     const TEMP_FILE_STRING = '_123467365253124134';
@@ -121,10 +93,7 @@ class Ffmpeg {
       .map((file, index) => `[${index}:v]scale=1920:1080:force_original_aspect_ratio=1[v${index}];`)
       .join('');
     const filter_str_2 = files.map((file, index) => `[v${index}][${index}:a]`).join('');
-    // const out = files.map((file) => `file '${file}'\n`).join('');
-    // const listPath = path.join(dir, 'files.txt');
     const outPath = path.join(out_dir, filename);
-    // fs.writeFileSync(listPath, out);
     await execShpromise(
       `ffmpeg ${files_str} -filter_complex '${filter_str_1}${filter_str_2}concat=n=${files.length}:v=1:a=1[v][a]' -map '[v]' -map '[a]' ${outPath}`
     );

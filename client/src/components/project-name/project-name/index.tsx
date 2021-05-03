@@ -228,6 +228,7 @@ const TypographyWrapper = styled(Typography)`
     display: flex;
     align-items: center;
     padding-right: 100px;
+    color: white;
   }
   &:hover {
     border: 2px solid ${(props) => props.theme.colors.white2};

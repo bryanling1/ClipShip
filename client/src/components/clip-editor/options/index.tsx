@@ -72,7 +72,7 @@ export default connector(Options);
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${(props) => props.theme.colors.white2};
+  background-color: ${(props) => props.theme.colors.white0};
   box-sizing: border-box;
   border-radius: 6px;
 `;

@@ -100,11 +100,11 @@ const IframeWrapper = styled.iframe`
 const NoClip = styled.div`
   width: 100%;
   height: 300px;
-  background-color: #f5f5f5;
-  color: rgba(0, 0, 0, 0.54);
+  background-color: ${(props) => props.theme.colors.white1};
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 `;
 const SliderContainer = styled.div`
   width: 100%;
@@ -115,7 +115,7 @@ const SliderContainer = styled.div`
 const SliderWrapper = styled(Slider)`
   && .MuiSlider-rail {
     height: 10px;
-    background-color: ${(props) => props.theme.colors.white2};
+    background-color: ${(props) => props.theme.colors.white0};
     opacity: 1;
   }
 

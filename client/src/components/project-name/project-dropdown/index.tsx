@@ -144,7 +144,7 @@ interface MenuItemWrapperProps {
   selected: number;
 }
 const MenuItemWrapper = styled.div<MenuItemWrapperProps>`
-  color: ${(props) => (props.selected ? props.theme.colors.primary : 'initial')};
+  color: ${(props) => (props.selected ? props.theme.colors.primary : 'white')};
   && .MuiMenuItem-root {
     font-weight: ${(props) => (props.selected ? 'bold' : 'initial')};
   }

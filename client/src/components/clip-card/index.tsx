@@ -126,7 +126,7 @@ const SelectedWrapper = styled.div<SelectedWrapperProps>`
   width: 100%;
   height: 100%;
   background-color: ${(props) => props.theme.colors.primaryDark};
-  opacity: ${(props) => (props.selected ? 0.76 : 0)};
+  opacity: ${(props) => (props.selected ? 0.55 : 0)};
   position: absolute;
   top: 0;
   left: 0;
@@ -165,6 +165,7 @@ const SmallAvatar = styled(Avatar)`
     height: 20px;
     transform: scale(0.8);
     background-color: ${(props) => props.theme.colors.primary};
+    color: white;
   }
 `;
 
@@ -173,6 +174,7 @@ const SquareAvatar = styled(Avatar)`
     width: 25px;
     height: 25px;
     background-color: ${(props) => props.theme.colors.primary};
+    color: white;
   }
 `;
 

@@ -48,6 +48,7 @@ const Clips = (props: OwnProps): JSX.Element => {
     <MainWrapper>
       <ClipsWrapper>
         <FlexWrapper>
+          <br />
           {loading && <Loader size={25} margintop={25} />}
           {clips.map((clip, i) => (
             <ClipCard
@@ -88,6 +89,7 @@ const Clips = (props: OwnProps): JSX.Element => {
             <Typography>{`0 / ${clips.length} Selected`}</Typography>
           </CenterText>
         )}
+        <br />
         <ButtonWrapper
           variant="contained"
           disabled={nSelected > 0 ? false : true}
@@ -127,6 +129,9 @@ const ClipsWrapper = styled.div`
     overflow-x: hidden;
     position: relative;
     margin-bottom: 20px;
+    background-color: ${(props) => props.theme.colors.white0};
+    padding-left: 8px;
+    padding-top: 8px;
   }
 `;
 

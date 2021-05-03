@@ -100,7 +100,9 @@ const Timeline = (props: Props): JSX.Element => {
           </DragDropContext>
         )}
       </PaperWrapper>
-      {project.name && clips.length > 0 && <Typography>{getTotalTime(clips)}</Typography>}
+      {project.name && clips.length > 0 && (
+        <TypographyWrapper>{getTotalTime(clips)}</TypographyWrapper>
+      )}
     </>
   );
 };
@@ -139,5 +141,11 @@ const FabWrapper = styled(Fab)`
   }
   &&: hover {
     background-color: ${(props) => props.theme.colors.primary};
+  }
+`;
+
+const TypographyWrapper = styled(Typography)`
+  && {
+    color: white;
   }
 `;

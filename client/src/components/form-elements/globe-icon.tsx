@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const GlobeIconWrapper = styled((otherProps) => <GlobeIcon {...otherProps} />)`
   && {
-    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'rgba(0, 0, 0, 0.35)')};
+    fill: ${(props) => (props.accent ? props.theme.colors.primary : 'white')};
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   }
 `;

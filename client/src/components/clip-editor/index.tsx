@@ -101,5 +101,5 @@ const Right = styled.div`
 const TypographyNoProject = styled(Typography)`
   text-align: center;
   width: 100%;
-  color: rgba(0, 0, 0, 0.54);
+  color: white;
 `;
