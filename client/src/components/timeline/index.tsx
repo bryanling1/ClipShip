@@ -112,7 +112,7 @@ const PaperWrapper = styled(Paper)`
     background-color: ${(props) => props.theme.colors.white1};
     width: 100%;
     display: flex;
-    padding: 15px;
+    padding: 20px;
     height: 150px;
     position: relative;
     align-items: center;

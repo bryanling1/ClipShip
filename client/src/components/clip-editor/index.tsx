@@ -26,7 +26,13 @@ const ClipEditor = (props: Props): JSX.Element => {
     }
   };
   const clip = selectedClip !== null && clips[selectedClip];
-
+  const useLabel: boolean =
+    clip &&
+    clip.label &&
+    (clip.labelGlobal
+      ? clip.labelGlobalPosition !== null
+      : clip.label && clip.labelPosition !== null);
+  const labelPosition = clip && (clip.labelGlobal ? clip.labelGlobalPosition : clip.labelPosition);
   return (
     <MainWrapper>
       {!project.name && (
@@ -51,6 +57,8 @@ const ClipEditor = (props: Props): JSX.Element => {
               title={clip.title}
               broadcaster={clip.broadcaster}
               height={570}
+              label={useLabel}
+              labelPosition={labelPosition || 0}
             />
           </Left>
           <Right>
@@ -73,7 +81,7 @@ const MainWrapper = styled.div`
   height: 600px;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
   border-radius: 8px;
 `;
 

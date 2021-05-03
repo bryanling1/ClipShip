@@ -1,6 +1,7 @@
 import * as actions from '../../store/actions';
 import { ConnectedProps, connect } from 'react-redux';
 import { StoreState } from '../../store/reducers/types';
+import { getMinutes } from '../../utils/timeline';
 import DownloadButton from '../form-elements/button';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import FileDownload from 'js-file-download';
@@ -23,9 +24,18 @@ type Props = PropsFromRedux;
 const Download = (props: Props): JSX.Element => {
   const { clips, project } = props;
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const handleDownload = async () => {
     if (clips.length > 0 && project.name && project.id && !isDownloading) {
+      const minutes = getMinutes(clips);
+      const ESTIMATE_MINUTES = Math.floor((20 / 6) * minutes);
+      setTimeLeft(ESTIMATE_MINUTES);
+      let count = 0;
+      const ESTIMATE_INTERVAL = setInterval(() => {
+        setTimeLeft(ESTIMATE_MINUTES - count);
+        count++;
+      }, 60 * 1000);
       setIsDownloading(true);
       const result = await axios({
         url: `http://localhost:5000/download?clips=${clips}`,
@@ -41,9 +51,12 @@ const Download = (props: Props): JSX.Element => {
       if (result) {
         FileDownload(result.data, `${project.name.split(' ').join('-')}.mp4`);
         setIsDownloading(false);
+        clearInterval(ESTIMATE_INTERVAL);
       }
     }
   };
+
+  const timeLeftString = timeLeft >= 1 ? `${timeLeft} mins` : '< 1 min';
   return (
     <MainWrapper>
       <DownloadButton
@@ -57,7 +70,7 @@ const Download = (props: Props): JSX.Element => {
       <br />
       {isDownloading && <Loader />}
       <br />
-      {isDownloading && <TypographyWrapper>This may take a while...</TypographyWrapper>}
+      {isDownloading && <TypographyWrapper>Est. time left: {timeLeftString}</TypographyWrapper>}
     </MainWrapper>
   );
 };
@@ -72,4 +85,5 @@ const MainWrapper = styled.div`
 
 const TypographyWrapper = styled(Typography)`
   text-align: center;
+  color: white;
 `;

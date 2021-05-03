@@ -99,7 +99,7 @@ const ClipSelectModal = (props: Props): JSX.Element => {
               length={clipDuration}
               title={clipTitle}
               broadcaster={clipBroadcaster}
-              height={410}
+              height={470}
             />
           </SecondHalf>
         </FlexWrapper>

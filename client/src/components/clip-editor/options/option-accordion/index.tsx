@@ -62,13 +62,7 @@ const OptionAccordion = (props: OwnProps): JSX.Element => {
           checked={enabled}
           accent={enabled ? 1 : 0}
         />
-        <TypographyWrapper
-          onClick={(event) => event.stopPropagation()}
-          onFocus={(event) => event.stopPropagation()}
-          variant="h5"
-        >
-          Label
-        </TypographyWrapper>
+        <TypographyWrapper variant="h5">Label</TypographyWrapper>
         {expanded && canGlobal && (
           <CheckboxWrapper
             onClick={handleEnableGlobalOption}

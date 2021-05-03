@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { LabelPosition } from '../../store/reducers/types';
+import Overlay from './overlay';
+import React, { useEffect, useRef, useState } from 'react';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
@@ -11,11 +13,24 @@ interface OwnProps {
   title?: string;
   broadcaster?: string;
   height?: number;
+  label?: boolean;
+  labelPosition?: LabelPosition;
   onStartEndChange: (start: number, end: number) => void;
 }
 const Player = (props: OwnProps): JSX.Element => {
-  const { url, start, end, length, onStartEndChange, height } = props;
+  const {
+    url,
+    start,
+    end,
+    length,
+    onStartEndChange,
+    height,
+    label,
+    broadcaster,
+    labelPosition,
+  } = props;
   const [value, setValue] = useState<number[]>([start || 0, end || 0]);
+  const ref = useRef<HTMLIFrameElement>(null);
   const handleChange = (event: any, newValue: number | number[]) => {
     const newVal = newValue as number[];
     setValue(newVal);
@@ -33,13 +48,20 @@ const Player = (props: OwnProps): JSX.Element => {
 
   return (
     <MainWrapper>
+      <Overlay
+        height={ref.current?.clientHeight || 0}
+        width={ref.current?.clientWidth || 0}
+        label={label && broadcaster ? broadcaster : undefined}
+        labelPosition={labelPosition}
+      />
       {url && (
-        <iframe
+        <IframeWrapper
           src={`${url}&parent=localhost&autoplay=true`}
           width="100%"
           height={`${height ? `${height}px` : '300px'}`}
           frameBorder="0"
           scrolling="no"
+          ref={ref}
         />
       )}
       {!url && (
@@ -70,6 +92,10 @@ export default Player;
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
+`;
+const IframeWrapper = styled.iframe`
+  border-radius: 8px;
 `;
 const NoClip = styled.div`
   width: 100%;

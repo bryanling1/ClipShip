@@ -34,3 +34,11 @@ export const getTotalTime = (clips: Clip[]): string => {
     return `${minutes}:${seconds >= 10 ? seconds : '0' + seconds.toString()}`;
   }
 };
+
+export const getMinutes = (clips: Clip[]): number => {
+  let total = 0;
+  for (const clip of clips) {
+    total += (clip.end - clip.start) / 60;
+  }
+  return total;
+};

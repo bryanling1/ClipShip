@@ -52,8 +52,8 @@ const Clips = (props: OwnProps): JSX.Element => {
           {clips.map((clip, i) => (
             <ClipCard
               imageurl={clip.thumbnailUrl}
-              height={170}
-              width={49}
+              height={180}
+              width={48}
               margin={3}
               onClick={() => {
                 handleSelect(i);
