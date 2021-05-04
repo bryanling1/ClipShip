@@ -1,4 +1,4 @@
-import { Clip } from '../../store/reducers/types';
+import { Clip } from '@clipship/common';
 import { areClipsSame } from '../clips';
 
 const mockClips1: Clip[] = [

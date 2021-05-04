@@ -1,4 +1,4 @@
-import { Clip } from '../../store/reducers/types';
+import { Clip } from '@clipship/common';
 import { getTotalTime } from '../../utils/timeline';
 import AddIcon from '@material-ui/icons/Add';
 import ButtonWrapper from '../form-elements/button';
@@ -132,6 +132,7 @@ const ClipsWrapper = styled.div`
     background-color: ${(props) => props.theme.colors.white0};
     padding-left: 8px;
     padding-top: 8px;
+    border-radius: 8px;
   }
 `;
 
@@ -141,7 +142,7 @@ const CenterText = styled.div`
 `;
 
 const TypographyWrapper = styled(Typography)`
-  color: rgb(136, 84, 208);
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 const AddClipsWrapper = styled.div`

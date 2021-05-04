@@ -122,6 +122,10 @@ const DialogWrapper = styled((otherProps) => <Dialog {...otherProps} />)`
   & > .MuiDialog-container > .MuiPaper-root {
     min-width: ${(props) => props.width};
   }
+
+  && .MuiPaper-root {
+    background-color: ${(props) => props.theme.colors.white1};
+  }
 `;
 
 const DialogActionsWrapper = styled(DialogActions)`

@@ -87,7 +87,7 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
       >
         <ExpandMoreIcon />
       </IconButton>
-      <Menu
+      <MenuWrapper
         id="long-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -121,7 +121,7 @@ const ProjectDropdown = (props: OwnProps): JSX.Element => {
             </MenuItem>
           </MenuItemWrapper>
         ))}
-      </Menu>
+      </MenuWrapper>
     </>
   );
 };
@@ -147,5 +147,11 @@ const MenuItemWrapper = styled.div<MenuItemWrapperProps>`
   color: ${(props) => (props.selected ? props.theme.colors.primary : 'white')};
   && .MuiMenuItem-root {
     font-weight: ${(props) => (props.selected ? 'bold' : 'initial')};
+  }
+`;
+
+const MenuWrapper = styled(Menu)`
+  && .MuiPaper-root {
+    background-color: ${(props) => props.theme.colors.white1};
   }
 `;

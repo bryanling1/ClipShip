@@ -1,2 +1,4 @@
 /mock-server
 /mongo
+/common/node_modules
+/common/build

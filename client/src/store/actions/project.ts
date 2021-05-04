@@ -1,4 +1,4 @@
-import { Clip } from '../reducers/types';
+import { Clip } from '@clipship/common';
 import { ClipAction, setClips } from '../actions/clips';
 import { Actions as ProjectActions } from './types';
 import { StoreState } from '../reducers/types';

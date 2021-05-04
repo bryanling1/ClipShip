@@ -91,8 +91,7 @@ const TypographyWrapper = styled(Typography)`
 `;
 
 const AccordionWrapper = styled(Accordion)`
-  && .MuiAccordion-root .Mui-expanded {
-    margin-top: 0;
-    margin-bottom: 0;
+  && {
+    background-color: ${(props) => props.theme.colors.white05};
   }
 `;

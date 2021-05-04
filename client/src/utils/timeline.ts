@@ -1,4 +1,4 @@
-import { Clip } from '../store/reducers/types';
+import { Clip } from '@clipship/common';
 
 export const getClipWidths = (clips: Clip[]): number[] => {
   const out: number[] = [];

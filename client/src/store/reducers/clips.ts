@@ -1,4 +1,4 @@
-import { Clip } from './types';
+import { Clip } from '@clipship/common';
 import { ClipAction } from '../actions';
 import { Actions as ClipActions } from '../actions/types';
 

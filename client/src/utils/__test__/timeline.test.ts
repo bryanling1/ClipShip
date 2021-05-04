@@ -1,4 +1,4 @@
-import { Clip } from '../../store/reducers/types';
+import { Clip } from '@clipship/common';
 import { getClipWidths, getMinutes, getTotalTime } from '../timeline';
 
 const clip1: Clip = {

@@ -59,6 +59,6 @@ const GlobalStyle = createGlobalStyle`
     html, body, .wrapper {
         height: 100%;
         margin: 0;
-        background-color: #222;
+        background-color: #191919;
     }
 `;

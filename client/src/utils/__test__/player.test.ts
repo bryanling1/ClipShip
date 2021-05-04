@@ -7,7 +7,7 @@ import {
   getTextShadowOutlineString,
 } from '../player';
 
-import { LabelPosition } from '../../store/reducers/types';
+import { LabelPosition } from '@clipship/common';
 
 describe('Timeline Utils', () => {
   it('gets olverlay height', () => {

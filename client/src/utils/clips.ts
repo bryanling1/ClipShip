@@ -1,4 +1,4 @@
-import { Clip } from '../store/reducers/types';
+import { Clip } from '@clipship/common';
 import _ from 'lodash';
 
 export const areClipsSame = (clips1: Clip[], clips2: Clip[]): boolean => {

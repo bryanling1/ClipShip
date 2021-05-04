@@ -1,5 +1,5 @@
 import * as actions from '../../store/actions';
-import { Clip } from '../../store/reducers/types';
+import { Clip } from '@clipship/common';
 import { ConnectedProps, connect } from 'react-redux';
 import Clips from './clips';
 import Dialog from '@material-ui/core/Dialog';
@@ -119,6 +119,10 @@ const DialogWrapper = styled(Dialog)`
 
   && .MuiPaper-root .MuiDialogContent-root {
     overflow-x: hidden;
+  }
+
+  && .MuiPaper-root {
+    background-color: ${(props) => props.theme.colors.white1};
   }
 `;
 

@@ -1,4 +1,4 @@
-import { LabelPosition } from '../../../store/reducers/types';
+import { LabelPosition } from '@clipship/common';
 import {
   calcOverlayHeight,
   calcOverlayTop,

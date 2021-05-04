@@ -1,4 +1,4 @@
-import { LabelPosition } from '../store/reducers/types';
+import { LabelPosition } from '@clipship/common';
 
 export const calcOverlayHeight = (width: number): number => {
   return (9 / 16) * width;

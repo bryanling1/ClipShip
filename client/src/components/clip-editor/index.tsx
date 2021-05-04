@@ -83,6 +83,7 @@ const MainWrapper = styled.div`
   align-items: center;
   padding: 20px;
   border-radius: 8px;
+  box-shadow: #050505 3px 3px 10px;
 `;
 
 const Left = styled.div`

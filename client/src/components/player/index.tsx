@@ -1,4 +1,4 @@
-import { LabelPosition } from '../../store/reducers/types';
+import { LabelPosition } from '@clipship/common';
 import Overlay from './overlay';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from '@material-ui/core/Slider';
@@ -100,7 +100,7 @@ const IframeWrapper = styled.iframe`
 const NoClip = styled.div`
   width: 100%;
   height: 300px;
-  background-color: ${(props) => props.theme.colors.white1};
+  background-color: ${(props) => props.theme.colors.white0};
   display: flex;
   justify-content: center;
   align-items: center;

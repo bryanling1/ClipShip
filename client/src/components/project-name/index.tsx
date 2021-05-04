@@ -59,21 +59,23 @@ const ProjectName = (props: Props) => {
 
   return (
     <MainWrapper>
-      <ProjectsDropdown
-        onSetProject={handleSetProject}
-        onNewProject={handleNewProject}
-        id={project.id}
-        canSave={canSave && (Boolean(project.name) || false)}
-      />
-      <ProjectNameEdit
-        content={project.name}
-        editMode={false}
-        onCreate={handleCreate}
-        onNameChange={handleNameChange}
-        onSaveProject={handleSaveProject}
-        canSave={canSave}
-        onDeleteProject={handleDeleteProject}
-      />
+      <PaperWrapper>
+        <ProjectsDropdown
+          onSetProject={handleSetProject}
+          onNewProject={handleNewProject}
+          id={project.id}
+          canSave={canSave && (Boolean(project.name) || false)}
+        />
+        <ProjectNameEdit
+          content={project.name}
+          editMode={false}
+          onCreate={handleCreate}
+          onNameChange={handleNameChange}
+          onSaveProject={handleSaveProject}
+          canSave={canSave}
+          onDeleteProject={handleDeleteProject}
+        />
+      </PaperWrapper>
     </MainWrapper>
   );
 };
@@ -84,4 +86,13 @@ const MainWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+`;
+
+const PaperWrapper = styled.div`
+  background-color: ${(props) => props.theme.colors.white1};
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: #050505 3px 3px 10px;
 `;

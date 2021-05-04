@@ -1,6 +1,7 @@
 import * as actions from '../../../../../store/actions';
 import { ConnectedProps, connect } from 'react-redux';
-import { LabelPosition, StoreState } from '../../../../../store/reducers/types';
+import { LabelPosition } from '@clipship/common';
+import { StoreState } from '../../../../../store/reducers/types';
 import CheckboxWrapper from '../../../../form-elements/checkbox';
 import OptionAccordion from '../index';
 import React from 'react';
@@ -153,7 +154,7 @@ interface PositionWrapperProps {
 const PositionWrapper = styled.div<PositionWrapperProps>`
   width: 200px;
   height: 112.5px;
-  background-color: ${(props) => props.theme.colors.white3};
+  background-color: ${(props) => props.theme.colors.white1};
   position: relative;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   border-radius: 3px;

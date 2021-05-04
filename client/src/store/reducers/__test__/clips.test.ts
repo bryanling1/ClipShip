@@ -1,4 +1,4 @@
-import { Clip, LabelPosition } from '../types';
+import { Clip, LabelPosition } from '@clipship/common';
 import { Actions as ClipActions } from '../../actions/types';
 import {
   addClips,

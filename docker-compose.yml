@@ -32,3 +32,5 @@ services:
             - MONGOMS_SYSTEM_BINARY=/usr/bin/mongod
         volumes:
             - './mongo:/data/db'
+        logging:
+            driver: none

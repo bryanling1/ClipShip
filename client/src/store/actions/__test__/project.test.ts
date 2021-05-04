@@ -1,4 +1,4 @@
-import { Clip } from '../../reducers/types';
+import { Clip } from '@clipship/common';
 import { Actions as ClipActions } from '../types';
 import { Middleware } from 'redux';
 import {

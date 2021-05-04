@@ -97,8 +97,16 @@ const AccordionWrapper = styled(Accordion)`
     margin: 0 0;
   }
 
+  && {
+    background-color: ${(props) => props.theme.colors.white05};
+  }
+
   &&& .MuiAccordion-expanded {
     margin: 0 0;
+  }
+
+  &&&:before {
+    background-color: ${(props) => props.theme.colors.white0};
   }
 `;
 const AccordionSummaryWrapper = styled(AccordionSummary)`

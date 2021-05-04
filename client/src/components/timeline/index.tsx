@@ -120,6 +120,7 @@ const PaperWrapper = styled(Paper)`
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+    box-shadow: #050505 3px 3px 10px;
   }
 `;
 
