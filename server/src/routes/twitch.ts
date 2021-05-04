@@ -5,10 +5,25 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/getClips', async (req, res) => {
-  const { game, limit } = req.query;
-  if (game && limit) {
-    const clips = await Twitch.getClipsByGame(game as string, parseInt(limit as string), 1);
-    res.send(clips);
+  const { search, limit, useGame, start, end } = req.query;
+  if (search && limit && start !== undefined && end !== undefined && useGame !== undefined) {
+    if (useGame === 'true') {
+      const clips = await Twitch.getClipsByGame(
+        search as string,
+        parseInt(limit as string),
+        parseInt(start as string),
+        parseInt(end as string)
+      );
+      res.send(clips);
+    } else {
+      const clips = await Twitch.getClipsByChannel(
+        search as string,
+        parseInt(limit as string),
+        parseInt(start as string),
+        parseInt(end as string)
+      );
+      res.send(clips);
+    }
   } else {
     res.sendStatus(400);
   }

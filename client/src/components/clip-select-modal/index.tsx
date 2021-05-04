@@ -36,11 +36,19 @@ const ClipSelectModal = (props: Props): JSX.Element => {
   const handleClickClip = (index: number) => {
     setSelectedClip(index);
   };
-  const handleSearch = async (game: string, limit: number) => {
+  const handleSearch = async (
+    search: string,
+    limit: number,
+    useGame: boolean,
+    start: Date | undefined,
+    end: Date | undefined
+  ) => {
     setLoading(true);
     setSelectedClip(0);
     setClips([]);
-    const query = `http://localhost:5000/getClips?game=${game}&limit=${limit}`;
+    const query = `http://localhost:5000/getClips?search=${search}&limit=${limit}&useGame=${useGame}&start=${
+      start ? start.getTime() : 0
+    }&end=${end ? end.getTime() : 0}`;
     const result = await axios.get<Clip[]>(query);
     if (result && result.data.length) {
       setClips(result.data);
