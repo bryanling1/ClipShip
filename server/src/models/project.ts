@@ -1,3 +1,4 @@
+import { Clip } from '@clipship/common';
 import mongoose, { Document, Model } from 'mongoose';
 
 const ClipSchema = new mongoose.Schema(
@@ -41,21 +42,6 @@ const ProjectSchema = new mongoose.Schema(
     },
   }
 );
-
-export interface Clip {
-  url: string;
-  start: number;
-  end: number;
-  duration: number;
-  label: boolean;
-  labelContent: string | null;
-  labelPosition: number | null;
-  labelGlobalPosition: number | null;
-  labelGlobal: boolean;
-  thumbnailUrl: string;
-  title: string;
-  broadcaster: string;
-}
 
 export interface Project {
   name: string | null;

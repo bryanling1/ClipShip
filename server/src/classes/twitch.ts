@@ -1,4 +1,4 @@
-import { Clip } from '../models/project';
+import { Clip } from '@clipship/common';
 import axios from 'axios';
 
 class Twitch {
@@ -47,6 +47,7 @@ class Twitch {
       const out: Clip[] = [];
       for (const clip of response.data.data) {
         out.push({
+          id: clip.tracking_id,
           url: clip.embed_url,
           start: 0,
           end: clip.duration,

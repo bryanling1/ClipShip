@@ -1,4 +1,4 @@
-import { Clip } from '../models/project';
+import { Clip } from '@clipship/common';
 import { https } from 'follow-redirects';
 import Ffmpeg from '../classes/ffmpeg';
 import fs from 'fs';

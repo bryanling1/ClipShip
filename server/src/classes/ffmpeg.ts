@@ -1,17 +1,10 @@
+import { LabelPosition } from '@clipship/common';
 import execSh from 'exec-sh';
 import execa from 'execa';
 import fs from 'fs';
 import path from 'path';
 
 const execShpromise = execSh.promise;
-export enum TextPosition {
-  LEFT_TOP,
-  CENTER_TOP,
-  RIGHT_TOP,
-  LEFT_BOTTOM,
-  CENTER_BOTTOM,
-  RIGHT_BOTTOM,
-}
 
 interface FfmpegAttrs {
   fontFile?: string;
@@ -19,7 +12,7 @@ interface FfmpegAttrs {
   fontSize?: number;
   fontOutlineWidth?: number;
   fontOutlineColor?: string;
-  fontPosition?: TextPosition;
+  fontPosition?: LabelPosition;
   fontPadding?: number;
 }
 
@@ -35,7 +28,7 @@ class Ffmpeg {
   private fontSize: number;
   private fontOutlineWidth: number;
   private fontOutlineColor: string;
-  private fontPosition: TextPosition;
+  private fontPosition: LabelPosition;
   private fontPadding: number;
 
   constructor() {
@@ -44,7 +37,7 @@ class Ffmpeg {
     this.fontSize = 100;
     this.fontOutlineWidth = 10;
     this.fontOutlineColor = 'black';
-    this.fontPosition = TextPosition.LEFT_TOP;
+    this.fontPosition = LabelPosition.LEFT_TOP;
     this.fontPadding = 20;
   }
 
@@ -148,7 +141,7 @@ class Ffmpeg {
 
   public async addTextDir(
     dir: string,
-    text: { content: string | null; position: TextPosition }[]
+    text: { content: string | null; position: LabelPosition }[]
   ): Promise<any> {
     const TEMP_FILE_STRING = '_123467365253124134';
     const tempFiles: string[] = [];
@@ -214,19 +207,19 @@ class Ffmpeg {
     this.fontPadding = attrs.fontPadding ? attrs.fontPadding : this.fontPadding;
   }
 
-  private getFontPosition(position: TextPosition): string {
+  private getFontPosition(position: LabelPosition): string {
     switch (position) {
-      case TextPosition.LEFT_TOP:
+      case LabelPosition.LEFT_TOP:
         return `x=${this.fontPadding}:y=${this.fontPadding}`;
-      case TextPosition.CENTER_TOP:
+      case LabelPosition.CENTER_TOP:
         return `x=(w-text_w)/2:y=${this.fontPadding}`;
-      case TextPosition.RIGHT_TOP:
+      case LabelPosition.RIGHT_TOP:
         return `x=w-tw-${this.fontPadding}:y=${this.fontPadding}`;
-      case TextPosition.LEFT_BOTTOM:
+      case LabelPosition.LEFT_BOTTOM:
         return `x=${this.fontPadding}:y=h-th-${this.fontPadding}`;
-      case TextPosition.CENTER_BOTTOM:
+      case LabelPosition.CENTER_BOTTOM:
         return `x=(w-text_w)/2:y=h-th-${this.fontPadding}`;
-      case TextPosition.RIGHT_BOTTOM:
+      case LabelPosition.RIGHT_BOTTOM:
         return `x=w-tw-${this.fontPadding}:y=h-th-${this.fontPadding}`;
       default:
         return `x=${this.fontPadding}:y=${this.fontPadding}`;
