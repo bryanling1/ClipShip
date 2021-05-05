@@ -103,7 +103,7 @@ const Download = (props: Props): JSX.Element => {
     }
   };
 
-  const timeLeftString = timeLeft >= 1 ? `${timeLeft} mins` : '< 1 min';
+  const timeLeftString = timeLeft >= 1 ? `${timeLeft} min${timeLeft > 1 ? 's' : ''}` : '< 1 min';
   return (
     <MainWrapper>
       {!isDownloading && (
