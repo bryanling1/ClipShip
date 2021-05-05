@@ -5,3 +5,4 @@ apt-get update
 apt-get install -y --force-yes deb-multimedia-keyring
 apt-get remove -y --force-yes ffmpeg
 apt-get install -y --force-yes build-essential libmp3lame-dev libvorbis-dev libtheora-dev libspeex-dev yasm pkg-config libx264-dev libav-tools libfreetype6-dev ffmpeg
+apt-get install zip

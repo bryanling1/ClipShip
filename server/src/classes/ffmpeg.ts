@@ -93,6 +93,14 @@ class Ffmpeg {
     return outPath;
   }
 
+  // public async zipDir(dir: string, out_dir: string, filename: string): Promise<string> {
+  //   const destination = path.join(out_dir, filename);
+  //   await execShpromise(
+  //     `zip -rj ${destination} ${dir}`
+  //   );
+  //   return
+  // }
+
   public async trimDir(
     dir: string,
     trims: { start: number | null; end: number | null }[]

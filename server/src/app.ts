@@ -10,9 +10,9 @@ const app = express();
 
 app.use(json());
 app.use(cors());
+app.use(downloadsRouter);
 app.use(projectRouter);
 app.use(twitchRouter);
-app.use(downloadsRouter);
 app.use(errorRoutes);
 
 export default app;

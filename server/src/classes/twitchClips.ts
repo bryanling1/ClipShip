@@ -44,7 +44,7 @@ class TwitchClips {
     this.fontFile = file;
   }
 
-  public async clipsToVideo(): Promise<any> {
+  public async clipsToVideo(seperate: boolean): Promise<any> {
     await this.download();
     await this.ffmpeg.resizeDir(this.dir, 1920, 1080);
     this.ffmpeg.setAttrs({ fontFile: this.fontFile });
@@ -66,7 +66,12 @@ class TwitchClips {
           : 0,
       }))
     );
-    return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4');
+    if (seperate) {
+      return this.dir;
+      // return this.ffmpeg.zipDir(this.dir, this.dir, 'download.zip');
+    } else {
+      return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4');
+    }
   }
 }
 

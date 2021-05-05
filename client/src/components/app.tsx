@@ -1,8 +1,11 @@
+import * as actions from '../store/actions';
+import { ConnectedProps, connect } from 'react-redux';
 import { ThemeProvider as MaterialThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { StoreState } from '../store/reducers/types';
 import ClipEditor from './clip-editor';
 import ClipSelectModal from './clip-select-modal';
 import Container from '@material-ui/core/Container';
-import Download from './download';
+import PostActionsCard from './post-actions-card';
 import ProjectName from './project-name';
 import React, { useState } from 'react';
 import Timeline from './timeline';
@@ -15,7 +18,18 @@ const darkTheme = createMuiTheme({
   },
 });
 
-const App = (): JSX.Element => {
+const mapStateToProps = (state: StoreState) => ({
+  clips: state.clips,
+  project: state.project,
+});
+const connector = connect(mapStateToProps, actions);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux;
+
+const App = (props: Props): JSX.Element => {
+  const { project, clips } = props;
   const [openAddClips, setOpenAddClips] = useState<boolean>(false);
   const openClipFinder = () => {
     setOpenAddClips(true);
@@ -34,15 +48,14 @@ const App = (): JSX.Element => {
           <ProjectName />
           <ClipEditor />
           <Timeline onAdd={openClipFinder} />
-          <br /> <br />
-          <Download />
+          {project.id && project.name && clips.length > 0 && <PostActionsCard />}
         </ContainerWrapper>
       </MaterialThemeProvider>
     </ThemeProvider>
   );
 };
 
-export default App;
+export default connector(App);
 
 const ContainerWrapper = styled(Container)`
   && {
@@ -52,6 +65,9 @@ const ContainerWrapper = styled(Container)`
     overflow: visible;
     min-width: 1280px;
     padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
   }
 `;
 
