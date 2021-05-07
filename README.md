@@ -65,14 +65,14 @@ Clip ship is a full stack application meant to be run locally.
    git clone https://github.com/bryanling1/ClipShip.git
    ```
 3. Add API `CLIENT_ID` and `CLIENT_SECRET` from **Step 1** to `./docker-compose` environment variables
-```yml
-back:
-    ...
-    environment:
-        - CLIENT_ID=<Your ClientId>
-        - CLIENT_SECTRET=<Your Secret>
- ```
-4 Startup `Docker` and run `docker-compose up`
+  ```yml
+  back:
+      ...
+      environment:
+          - CLIENT_ID=<Your ClientId>
+          - CLIENT_SECTRET=<Your Secret>
+   ```
+4. Startup `Docker` and run `docker-compose up`
 
 
 
