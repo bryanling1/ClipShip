@@ -61,7 +61,7 @@ Clip ship is a full stack application meant to be run locally.
 
 1. Get a Twitch API Key: [Twitch Dev Console](https://dev.twitch.tv/console/apps)
 2. Clone the repo
-   ```sh
+  ```sh
    git clone https://github.com/bryanling1/ClipShip.git
    ```
 3. Add API `CLIENT_ID` and `CLIENT_SECRET` from **Step 1** to `./docker-compose` environment variables
