@@ -33,7 +33,8 @@ A Twitch Clip Compilation Editor
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The ability to condense 24 hour live streams down to 10 minutes can never go unappreciated and is often seen as Twitch Clip compilations on Youtube. Clip ship aims to assist creators in the searching and downloading of clips so they can spend more mastering their craft in the form of editing.
+The ability to condense 24 hour live streams down to 10 minutes can never go unappreciated and is often seen as Twitch Clip compilations on Youtube. Clip Ship assists
+creators so they can spend less time searching and downloding clips, and more time editing.
 
 ### Built With
 
