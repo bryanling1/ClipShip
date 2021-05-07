@@ -2,3 +2,4 @@
 /mongo
 /common/node_modules
 /common/build
+/server/src/temps/
