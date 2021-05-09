@@ -70,7 +70,7 @@ class TwitchClips {
       return this.dir;
       // return this.ffmpeg.zipDir(this.dir, this.dir, 'download.zip');
     } else {
-      return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4');
+      return this.ffmpeg.concatDir(this.dir, this.dir, 'output.mp4', `${this.dir}../outro`);
     }
   }
 }
