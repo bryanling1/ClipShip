@@ -33,7 +33,8 @@ A Twitch Clip Compilation Editor
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The ability to condense 24 hour live streams down to 10 minutes can never go unappreciated and is often seen as Twitch Clip compilations on Youtube. Clip ship aims to assist creators in the searching and downloading of clips so they can spend more mastering their craft in the form of editing.
+The ability to condense 24 hour live streams down to 10 minutes can never go unappreciated and is often seen as Twitch Clip compilations on Youtube. Clip Ship assists
+creators so they can spend less time searching and downloding clips, and more time editing.
 
 ### Built With
 
@@ -60,18 +61,18 @@ Clip ship is a full stack application meant to be run locally.
 
 1. Get a Twitch API Key: [Twitch Dev Console](https://dev.twitch.tv/console/apps)
 2. Clone the repo
-   ```sh
+  ```sh
    git clone https://github.com/bryanling1/ClipShip.git
    ```
 3. Add API `CLIENT_ID` and `CLIENT_SECRET` from **Step 1** to `./docker-compose` environment variables
-```yml
-back:
-    ...
-    environment:
-        - CLIENT_ID=<Your ClientId>
-        - CLIENT_SECTRET=<Your Secret>
- ```
-4 Startup `Docker` and run `docker-compose up`
+  ```yml
+  back:
+      ...
+      environment:
+          - CLIENT_ID=<Your ClientId>
+          - CLIENT_SECTRET=<Your Secret>
+   ```
+4. Startup `Docker` and run `docker-compose up`
 
 
 
